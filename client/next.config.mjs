@@ -16,8 +16,6 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "wego-production.up.railway.app" },
-      // hvis du også vil kunne vise billeder direkte fra Railway:
-      // { protocol: "https", hostname: "wego-production.up.railway.app" },
     ],
   },
 };
