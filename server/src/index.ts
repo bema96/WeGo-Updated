@@ -12,15 +12,29 @@ import { slideRoutes } from './routes/slideRoutes';
 import { contentRoutes } from './routes/contentRoutes';
 
 dotenv.config();
-const port = process.env.SERVERPORT || 4000
+const port = process.env.PORT || 4000
 
 const app = express();
+
+const allowed = [
+  'https://wegorides.netlify.app',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+];
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true);           
+    if (allowed.includes(origin) || /\.railway\.app$/.test(origin)) return cb(null, true);
+    cb(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
 
 const IMAGES_DIR = path.resolve(process.cwd(), "assets", "images");
 app.use("/images", express.static(IMAGES_DIR));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
