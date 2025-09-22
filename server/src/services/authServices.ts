@@ -41,6 +41,7 @@ const authenticateUser = async (username: string, password: string) => {
             firstname: true,
             lastname: true,
             password: true,
+            imageUrl: true,
             isActive: true
         }
     });
@@ -76,7 +77,8 @@ const authenticateUser = async (username: string, password: string) => {
         user: { 
             id: user.id, 
             firstname: user.firstname, 
-            lastname: user.firstname 
+            lastname: user.firstname,
+            imageUrl: user.imageUrl,
         },
     };
 };
@@ -107,6 +109,18 @@ const getUserIdFromToken = (token: string): number | null => {
         // Token er ugyldigt eller udløbet
         return null;
     }
+};
+
+export const signupUser = async (firstname: string, lastname: string, email: string, password: string) => {
+    const existing = await prisma.user.findUnique({
+        where: { email }
+    });
+    if (existing) throw new Error("Email findes allerede");
+
+    const hashed = await bcrypt.hash(password, 10);
+    return prisma.user.create({
+        data: { firstname, lastname, email, password: hashed, refreshToken: "", imageUrl: "" }
+    });
 };
 
 // Eksportér funktionerne til brug i resten af appen

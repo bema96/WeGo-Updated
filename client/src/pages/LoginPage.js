@@ -1,21 +1,28 @@
+//pages/LoginPage.js
 "use client"
-
-import { Login } from "@/components/_login/login";
-import { useForm } from "react-hook-form";
-import { useAuth } from "@/providers/auth.provider";
-import { useLogin } from "@/hooks/useLogin";
+// Imports
+import { Login     } from "@/components/_login/login";
+import { useForm   } from "react-hook-form";
+import { useAuth   } from "@/providers/auth.provider";
+import { useLogin  } from "@/hooks/useLogin";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
 
+export default function LoginPage() {
+  // Hooks
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { login, loading, error } = useLogin();
-  const { setLoginData          } = useAuth();
+  // Auth context
+  const { setLoginData } = useAuth();
+  // Next router
   const router = useRouter();
 
+  // onSubmit funktion
   const onSubmit = async (formData) => {
     const result = await login(formData);
-    if (result?.accessToken && result?.user?.id) {
+      if (
+      result?.accessToken && 
+      result?.user?.id) {
       const authData = {
         accessToken: result?.accessToken,
         user: result?.user
@@ -28,8 +35,10 @@ export default function LoginPage() {
     }
   };
 
+  
   return (
-    <div className="flex justify-center items-center h-full">
+
+    <section className="flex justify-center items-center h-full">
       <Login
         register={register}
         handleSubmit={handleSubmit}
@@ -38,6 +47,6 @@ export default function LoginPage() {
         loading={loading}
         error={error}
       />
-    </div>
+    </section>
   );
 }

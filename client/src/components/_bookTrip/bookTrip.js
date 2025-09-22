@@ -1,24 +1,21 @@
 // components/_bookTrip/bookTrip.jsx
 "use client";
-
+// Imports
 import { dayLabel } from "@/utils/dayLabel";
 import { Button } from "../UI/UniversalButton/button";
 
-export const BookTrip = ({
-  trip,
-  maxSeats,
-  seats,
-  message,
-  totalPrice,
-  onSeatsChange,
-  onMessageChange,
-  onSubmit,
-  onBack,
-}) => {
-  const cap = Math.max(0, maxSeats || 0);
+export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsChange, onMessageChange, onSubmit, onBack }) => {
+  
+  // Viser antal pladser i dropdown
+  const seat = [];
+  for (let i = 1; i <= maxSeats; i++) {
+    seat.push(<option key={i} value={i}>{i}</option>);
+  }
 
   return (
+
     <form className="p-4 space-y-4 max-w-sm mx-auto" onSubmit={onSubmit}>
+      
       {/* Pladser */}
       <div className="space-y-1">
         <label className="text-sm">Pladser</label>
@@ -26,20 +23,14 @@ export const BookTrip = ({
           className="w-full rounded-xl border p-3"
           value={seats}
           onChange={(e) => onSeatsChange(Number(e.target.value))}
-          disabled={cap === 0}
+          disabled={maxSeats === 0}
           name="seats"
         >
-          {cap === 0 ? (
-            <option value={0}>Udsolgt</option>
-          ) : (
-            Array.from({ length: cap }, (_, i) => i + 1).map((n) => (
-              <option key={n} value={n}>{n}</option>
-            ))
-          )}
+          {seat}
         </select>
       </div>
 
-      {/* Besked → comment */}
+      {/* Besked */}
       <div className="space-y-1">
         <label className="text-sm">Besked til chauffør</label>
         <textarea
@@ -51,7 +42,7 @@ export const BookTrip = ({
         />
       </div>
 
-      {/* Betaling (dummy inputs – ingen props/validering) */}
+      {/* Betaling (dummy) */}
       <div className="space-y-2">
         <div className="space-y-1">
           <label className="text-sm">Kortnummer</label>
@@ -103,12 +94,13 @@ export const BookTrip = ({
       </div>
 
       {/* Actions */}
-      <Button type="submit" className="w-full rounded-2xl bg-sky-500 text-white py-3" disabled={cap === 0}>
+      <Button type="submit" className="w-full rounded-2xl bg-sky-500 text-white py-3" disabled={maxSeats === 0}>
         Book
       </Button>
       <Button type="button" onClick={onBack} className="w-full rounded-2xl bg-sky-100 text-sky-800 py-3">
         Tilbage
       </Button>
+
     </form>
   );
 };

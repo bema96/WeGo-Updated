@@ -1,20 +1,16 @@
 export const metadata = {
-  title: "Mit Next Projekt",
+  metadataBase: new URL("http://localhost:3000/"),  
+  title: { template: "%s | Mit Webshop", default: "Mit Webshop" },
   description: "Public og privat dashboard eksempel",
+  manifest: "/manifest.json",                   
 };
 
-
-import "@/styles/index.css"
+import "@/styles/index.css";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="da">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

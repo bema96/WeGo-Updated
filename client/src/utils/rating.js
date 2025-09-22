@@ -1,3 +1,4 @@
+// utils/ratings.js
 export function calcAverage(reviews, userId) {
   // Akkumulator: starter på 0 for at ungå Nan eller undefined. 
   let totalStars = 0;

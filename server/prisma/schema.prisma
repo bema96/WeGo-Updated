@@ -76,12 +76,12 @@ model Booking {
 }
 
 model Review {
-  id             Int    @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   numStars       Int
-  comment        String @db.Text
+  comment        String   @db.Text
   reviewerId     Int
   reviewedUserId Int
-  createdAt DateTime @default(now())
+  createdAt      DateTime @default(now())
 
   reviewer        User @relation("reviewsWritten", fields: [reviewerId], references: [id])
   reviewsRecieved User @relation("reviewsRecieved", fields: [reviewedUserId], references: [id])
@@ -109,7 +109,7 @@ model Slide {
 }
 
 model Content {
-  id      Int @id @default(autoincrement())
+  id      Int    @id @default(autoincrement())
   title   String
   content String @db.Text
 

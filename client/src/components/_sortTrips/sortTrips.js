@@ -1,32 +1,27 @@
-import { PrefsFilter   } from "@/components/_sortTrips/_prefsFilter/preference";
-import { SeatsFilter   } from "@/components/_sortTrips/_seatsFilter/seats";
-import { ComfortFilter } from "@/components/_sortTrips/_comfortFilter/comfort";
+// components/sortTrips.js
+import { PrefsFilter } from "@/components/_sortTrips/_prefsFilter/preference";
+import { SeatsFilter } from "@/components/_sortTrips/_seatsFilter/seats";
 import { BaggageFilter } from "@/components/_sortTrips/_bagageFilter/bagage";
 
-export const SortTrips = ({ value = { seats: 1, bagSizeId: null, comfort: false, prefs: [] }, onChange, bagSizes, className }) => {
 
-  return (
-    <div className={`bg-white px-5 rounded-2xl flex flex-col gap-4 ${className}`}>
-      <SeatsFilter
-        value={value.seats}
-        onChange={(seats) => onChange?.({ seats })}
-      />
+export const SortTrips = ({ value = { selectedFilter: "", bagSizeId: "" ,pref: [] }, onChange, bagSizes, className }) => (
 
-      <BaggageFilter
-        options={bagSizes}
-        value={value.bagSizeId}
-        onChange={(bagSizeId) => onChange?.({ bagSizeId })}
-      />
+  <div className={`bg-white px-5 rounded-2xl flex flex-col gap-4 ${className}`}>
+    <SeatsFilter
+      value={value.seats}
+      onChange={(seat) => onChange?.({ selectedFilter: "seats", seats: seat })}
+    />
 
-      <ComfortFilter
-        value={value.comfort}
-        onChange={(comfort) => onChange?.({ comfort })}
-      />
+    <BaggageFilter
+      options={bagSizes}
+      value={value.bagSizeId}
+      onChange={(bagSizeId) => onChange?.({ selectedFilter: "bagage", bagSizeId })}
+    />
 
-      <PrefsFilter
-        value={value.prefs}
-        onChange={(prefs) => onChange?.({ prefs })}
-      />
-    </div>
-  );
-};
+    <PrefsFilter
+      value={value.pref}
+      onChange={(pref) => onChange?.({ selectedFilter: "preference", pref })}
+    />
+  </div>
+);
+

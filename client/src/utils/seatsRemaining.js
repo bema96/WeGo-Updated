@@ -1,10 +1,11 @@
-export const SeatsRemaining = (trip, bookings = []) => {
-  const total  = trip?.seatsTotal || 0;
+// utils/seatsRemaining.js
+export const SeatsRemaining = (trip, bookings) => {
+  const total  = trip?.seatsTotal;
   const tripId = trip?.id;
 
   const booked = bookings
-    .filter(b => String(b?.tripId) === tripId)
-    .reduce((sum, b) => sum + (((b?.numSeats ?? b?.seats) ?? 1) || 0), 0);
+    .filter(booking => booking.tripId === tripId)
+    .reduce((sum, booking) => sum + (booking.seats || 0), 0);
 
-  return Math.max(0, total - booked);
+  return total - booked;
 };

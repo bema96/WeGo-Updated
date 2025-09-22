@@ -1,13 +1,16 @@
+//components/avatar.js
 "use client"
-
+// Imports
 import { AvatarIcon } from "@/assets/icons/avatar";
 
+
 export const Avatar = ({ imageUrl, className }) => {
+  
   return (
+
     <div className={className}>
-      <div
-        className="rounded-full overflow-hidden box-border border-2 border-gray-400 aspect-square h-full w-full shrink-0"
-      >
+      <div className="rounded-full overflow-hidden box-border border-2 border-gray-400 aspect-square h-full w-full shrink-0">
+        
         {imageUrl ? (
           <img
             src={imageUrl}

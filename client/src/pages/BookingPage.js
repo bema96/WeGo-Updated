@@ -1,51 +1,64 @@
-// app/(public)/booking/[id]/page.jsx
+//pages/BookingPage.js
 "use client"
+// Imports
+import { useState                     } from "react";
+import { useBooking                   } from "@/hooks/useBooking";       
+import { useBookATrip                 } from "@/hooks/useBookATrip";    
+import { useTrips                     } from "@/hooks/useTrips";
+import { useAuth                      } from "@/providers/auth.provider";
+import { SeatsRemaining               } from "@/utils/seatsRemaining";
+import { BookTrip                     } from "@/components/_bookTrip/bookTrip";
+import { ErrorMessage                 } from "@/components/UI/Error.../ErrorMessage";
+import { LoadingWavyDots              } from "@/components/UI/Loading.../LoadingWavyDots";
 
-import { useState, useMemo, useEffect } from "react";
-import { BookTrip } from "@/components/_bookTrip/bookTrip";
-import { useBooking } from "@/hooks/useBooking";        // GET eksisterende bookings
-import { useBookATrip } from "@/hooks/useBookATrip";    // POST booking (samme stil som useLogin)
-import { useTrips } from "@/hooks/useTrips";
-import { useAuth } from "@/providers/auth.provider";
-
-import { LoadingWavyDots } from "@/components/UI/Loading.../LoadingWavyDots";
-import { ErrorMessage } from "@/components/UI/Error.../ErrorMessage";
-import { SeatsRemaining } from "@/utils/seatsRemaining";
 
 export default function BookingPage({ id }) {
-  // hooks 
-  const { data: tripData,    loading: tripLoading,    error: tripError }    = useTrips(id);
+  // States
+  const [seats,   setSeats  ] = useState();
+  const [message, setMessage] = useState();
+  const [success, setSuccess] = useState();
+  const [error,   setError  ] = useState();
+  
+  // Hooks
+  const { data: tripData,    loading: tripLoading,    error: tripError    } = useTrips(id);
   const { data: bookingData, loading: bookingLoading, error: bookingError } = useBooking();
-  const { loginData, loading: authLoading } = useAuth();
-  const { book, error: postError }  = useBookATrip();
-
-  // UI state
-  const [seats, setSeats]     = useState(1);
-  const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState("");
-
-  // data
+  const { book,              loading: postLoading,    error: postError    } = useBookATrip();
+  const { loginData,         loading: authLoading                         } = useAuth();
+  // Data sikring
   const trip     = Array.isArray(tripData)    ? tripData[0] : (tripData ?? null);
   const bookings = Array.isArray(bookingData) ? bookingData : [];
 
-  // beregning
-  const remaining = useMemo(() => SeatsRemaining(trip, bookings), [trip, bookings]);
-  const maxSeats  = Math.min(remaining, 4);
+  // Beregning
+  const seatsRemaining = SeatsRemaining(trip, bookings);
+  const maxSeats       = seatsRemaining      || trip?.seatsTotal || 0;
+  const totalPrice     = (trip?.pricePerSeat || 0)    *   (seats || 1);
 
-  // Hvis seats ændrer sig
-  useEffect(() => {
+  // Sæde håndtering 
+  const handleSeats = async (n) => {
+    setSeats(n || 1);
+  }
 
-    if (maxSeats <= 0) setSeats(0);
-    else if (seats === 0) setSeats(1);
-    else if (seats > maxSeats) setSeats(maxSeats);
-  }, [maxSeats]);
+  // Submit håndtering
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!loginData || !trip || maxSeats === 0) return;
 
-  const totalPrice = (trip?.pricePerSeat || 0) * (seats || 0);
+    const response = await book({
+      tripId: trip.id,
+      numSeats:  seats || 1,
+      comment: message || "",
+    })
+    if (response?.id) {
+      setSuccess("Din booking er gennemført!");
+    } else {
+      setError("Booking mislykkedes.");
+    }
+  };
 
+  // Loading & Error
+  if (tripLoading || bookingLoading || postLoading || authLoading) return <LoadingWavyDots text="Indlæser..." />;
+  if (tripError   || bookingError   || postError                 ) return <ErrorMessage message="Error fetching trip" />;
 
-  // loaders & errors
-  if (tripLoading || bookingLoading || authLoading) return <LoadingWavyDots text="Indlæser..." />;
-  if (tripError   || bookingError   || postError) return <ErrorMessage message="Error fetching trip" />;
 
 
   return (
@@ -56,7 +69,11 @@ export default function BookingPage({ id }) {
           {success}
         </div>
       )}
-      {postError && <ErrorMessage message={postError.message || "Kunne ikke reservere plads."} />}
+      {error && (
+        <div className="mb-3 rounded-xl bg-red-100 text-red-800 px-3 py-2 text-sm">
+          {error}
+        </div>
+      )}
 
       {!loginData && (
         <div className="mb-3 mt-4 rounded-xl bg-yellow-50 text-yellow-800 px-3 py-2 text-xs">
@@ -70,19 +87,10 @@ export default function BookingPage({ id }) {
         seats={seats}
         message={message}
         totalPrice={totalPrice}
-        onSeatsChange={(n) => setSeats(Math.min(n, maxSeats))}
+        onSeatsChange={handleSeats}
         onMessageChange={setMessage}
         onBack={() => history.back()}
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setSuccess("");
-
-          if (!loginData) return;
-
-          const payload = { tripId: trip.id, numSeats: seats };
-          const result = await book(payload);
-          if (result) setSuccess("Din plads er reserveret");
-        }}
+        onSubmit={handleSubmit}
       />
 
     </div>

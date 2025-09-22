@@ -1,40 +1,41 @@
-// components/Navigation/MobileNavigation.jsx
+// components/MobileNavigation.jsx
 "use client";
-
-import Link from "next/link";
-import { Button } from "@/components/UI/UniversalButton/button";
-import { AvatarIcon } from "@/assets/icons/avatar";
+// Imports
+import { Button        } from "@/components/UI/UniversalButton/button";
+import { Avatar        } from "../_avatar/avatar";
 import { slide as Menu } from "react-burger-menu";
+import Link from "next/link";
 
-export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, username, onHowItWorks }) => {
+
+export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, onHowItWorks }) => {
+
   const closeMenu = () => setMenuOpen(false);
 
   return (
+
     <div className="flex w-full items-center justify-between">
+
+      {/* Logo */}
       <Link href="/" className="flex items-center gap-2">
         <img src="/WeGo.svg" alt="Logo" width={100} />
       </Link>
 
+      {/* Avatar & username */}
       <div className="relative flex items-center gap-8">
+        
         <div className="flex justify-center items-center gap-3">
-          {loginData && (
-            <div className="flex flex-col text-xs opacity-80">
-              <span className="flex justify-end">Velkommen</span>
-              <span className="font-bold flex justify-end">{username}</span>
-            </div>
-          )}
-
-          {loginData ? (
-            <Link href="/dashboard">
-              <AvatarIcon className="w-10 cursor-pointer" />
-            </Link>
-          ) : (
-            <Link href="/login" rel="noopener noreferrer">
-              <AvatarIcon className="w-10" />
-            </Link>
-          )}
+          {/* username */}
+          <div className="flex flex-col text-xs opacity-80">
+            <span className="flex justify-end">Velkommen</span>
+            <span className="font-bold flex justify-end">{loginData?.user?.firstname}</span>
+          </div>
+          {/* avatar */}
+          <Link href="/dashboard">
+            <Avatar imageUrl={loginData?.user?.imageUrl} className="w-13" />
+          </Link>
         </div>
 
+        {/* React Burger Menu */}
         <Menu
           right
           isOpen={menuOpen}
@@ -42,19 +43,20 @@ export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, username, o
           customCrossIcon={
             <Button
               aria-label="Luk menu"
-              className="text-5xl absolute top-4 right-5 bg-transparent border-none cursor-pointer"
+              className="text-5xl absolute text-white top-4 right-5 bg-transparent border-none cursor-pointer"
               onClick={closeMenu}
             >
-              ×
+              &times;
             </Button>
           }
         >
-          {/* Ét link */}
+    
+          {/* Link til listPage */}
           <Link href="/list" onClick={closeMenu} className="mb-4 block">
             Find et Lift
           </Link>
 
-          {/* Én knap der åbner modal */}
+          {/* Knap til "Sådan virker det" */}
           <button
             type="button"
             onClick={() => {
@@ -67,6 +69,7 @@ export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, username, o
           </button>
         </Menu>
       </div>
+      
     </div>
   );
 };

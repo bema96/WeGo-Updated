@@ -1,22 +1,27 @@
+// pages/FrontPage.js
 "use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSlides } from "@/hooks/useSlides";
-import { Slideshow } from "@/components/_slides/slides";
-import { SearchLift } from "@/components/_search/searchLift";
-import { ErrorMessage } from "@/components/UI/Error.../ErrorMessage";
+// Imports
+import { useState        } from "react";
+import { useRouter       } from "next/navigation";
+import { useSlides       } from "@/hooks/useSlides";
+import { Slideshow       } from "@/components/_slides/slides";
+import { SearchLift      } from "@/components/_search/searchLift";
+import { ErrorMessage    } from "@/components/UI/Error.../ErrorMessage";
 import { LoadingWavyDots } from "@/components/UI/Loading.../LoadingWavyDots";
 
 
 
-export default function FrontPage({ className }) {
+export default function FrontPage() {
+  // States
+  const [from, setFrom] = useState("");
+  const [to,   setTo  ] = useState("");
+  // Next router
+  const router = useRouter();
+  // Hooks
   const { data, loading, error } = useSlides();
+  // Data sikring
   const slides = Array.isArray(data) ? data : [];
 
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,16 +29,20 @@ export default function FrontPage({ className }) {
     router.push(`/list?${params}`);
   };
 
+  // Loading & Error
   if (loading) return <LoadingWavyDots text="" />;
   if (error) return <ErrorMessage message="" />;
 
+
   return (
-    <div className={`relative ${className || ""}`}>
+
+    <div>
+
       {/* HERO / SLIDER */}
       <section className="relative z-0 overflow-visible">
         <Slideshow slides={slides} />
 
-        {/* Søg-boksen */}
+        {/* Søgefelt */}
         <div className="absolute left-1/2 -translate-x-1/2 top-40 w-[90%] max-w-[800px] z-20">
           <SearchLift
             text="Find et lift"

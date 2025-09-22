@@ -1,6 +1,6 @@
-
-export function Danish(input) {
-    return String(input)
+// utils/danishCapitals.js
+export function Normalize(input) {
+    return (input)
 
     .trim()
     .toLowerCase()

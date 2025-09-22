@@ -53,8 +53,9 @@ export const createRecord = async (req: Request, res: Response) => {
 
   const { tripId, comment, numSeats } = req.body;
 
-  if (!tripId || !userId || !comment || !numSeats) {
-    res.status(400).json({ error: 'All fields are required' });
+  if (!tripId || !userId || !numSeats) {
+    res.status(400).json({ error: 'tripId, userId og numSeats er påkrævet' });
+    return;
   }
 
   try {
@@ -62,14 +63,14 @@ export const createRecord = async (req: Request, res: Response) => {
       data: {
         userId: Number(userId),
         tripId: Number(tripId),
-        comment,
+        comment: comment ?? "",
         numSeats: Number(numSeats)
       },
     });
     res.status(201).json(trip);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to create trip' });
+    res.status(500).json({ error: 'Failed to create booking' });
   }
 };
 

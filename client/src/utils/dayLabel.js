@@ -1,4 +1,4 @@
-
+// utils/dayLabel.js
 export function dayLabel(dateInput) {
     
   const date = new Date(dateInput);

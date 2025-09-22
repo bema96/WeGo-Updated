@@ -1,13 +1,14 @@
+//providers/auth.provider.js
 "use client"
-
+// Imports 
 import { createContext, useContext, useEffect, useState } from "react";
+
 
 export const AuthContext = createContext();
 
-
 export const AuthProvider = ({ children }) => {
     const [loginData, setLoginData] = useState(null);
-    const [loading, setLoading]     = useState(true);
+    const [loading,   setLoading  ] = useState(true);
 
     useEffect(() => {
         

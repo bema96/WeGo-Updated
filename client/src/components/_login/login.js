@@ -5,7 +5,7 @@ export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error
 
   return (
     <section className={"rounded-xl shadow p-8 w-full max-w-lg flex flex-col gap-6"}>
-      <h2 className="text-2xl font-bold text-amber-500 text-center">Login</h2>
+      <h2 className="text-2xl font-bold text-[var(--teal)] text-center">Login</h2>
 
       <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         
@@ -41,7 +41,7 @@ export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error
         {/* Submit */}
         <button
           type="submit"
-          className="bg-amber-400 text-white rounded px-4 py-2 font-semibold hover:bg-amber-500 transition-all disabled:opacity-60 shadow"
+          className="bg-[var(--teal)] text-white rounded px-4 py-2 font-semibold hover:bg-[var(--sky)] transition-all disabled:opacity-60 shadow"
           disabled={loading}
         >
           {loading ? "Logger ind..." : "Login"}
@@ -51,7 +51,7 @@ export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error
       {/* Signup redirect */}
       <div className="text-center text-sm">
         <span className="text-gray-600">Ingen konto?</span>
-        <Link href="/signup" className="ml-1 text-amber-500 font-semibold hover:underline">Opret bruger</Link>
+        <Link href="/signup" className="ml-1 text-[var(--sky)] font-semibold hover:underline">Opret bruger</Link>
       </div>
     </section>
   );

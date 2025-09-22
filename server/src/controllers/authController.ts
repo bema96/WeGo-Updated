@@ -3,6 +3,7 @@ import {
     authenticateUser,
     verifyRefreshToken,
     getUserIdFromToken,
+    signupUser
 } from "../services/authServices";
 
 export const Authenticate = async (req: Request, res: Response): Promise<void> => {
@@ -50,4 +51,18 @@ export const getUserFromToken = (req: Request, res: Response) => {
     if (!userId) res.status(401).json({ message: "Invalid token" });
 
     res.json({ userId });
+};
+
+export const signup = async (req: Request, res: Response) => {
+    const { firstname, lastname, email, password } = req.body;
+    if (!firstname || !lastname || !email || !password) {
+        res.status(400).json({ message: "Missing fields" });
+        return;
+    }
+    try {
+        const user = await signupUser(firstname, lastname, email, password);
+        res.status(201).json({ message: "User created", user });
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
+    }
 };
