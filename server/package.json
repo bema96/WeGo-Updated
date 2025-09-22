@@ -2,7 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "private": true,
-  "engines": { "node": "20.x" },
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "tsx --watch src/index.ts",
     "build": "tsc -p .",
@@ -14,17 +16,22 @@
   "dependencies": {
     "@prisma/client": "^6.11.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
     "csv-parse": "^5.6.0",
     "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.0.3",
+    "@types/streamifier": "^0.1.2",
     "dotenv": "^16.5.0",
     "prisma": "^6.11.0",
     "tsx": "^4.20.3",

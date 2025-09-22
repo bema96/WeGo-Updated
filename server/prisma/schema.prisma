@@ -20,8 +20,8 @@ model User {
   email        String  @unique // -> Unik værdi
   password     String
   description  String? @db.Text // -> Lang tekst
-  imageUrl     String
-  refreshToken String
+  imageUrl     String?
+  refreshToken String?
   isActive     Boolean @default(true) // -> Bool med default true
 
   reviewsWritten  Review[]  @relation("reviewsWritten")
@@ -65,7 +65,7 @@ model Booking {
   id        Int      @id @default(autoincrement())
   tripId    Int
   userId    Int
-  comment   String   @db.Text
+  comment   String?  @db.Text
   numSeats  Int
   createdAt DateTime @default(now())
 

@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
+import { uploadRoutes } from './cloudinary/uploads';
 import { userRoutes } from './routes/userRoutes';
 import { authRoutes } from './routes/authRoutes';
 import { tripRoutes } from './routes/tripRoutes';
@@ -19,7 +20,6 @@ const app = express();
 const allowed = [
   'https://wegorides.netlify.app',
   'http://localhost:3000',
-  'http://127.0.0.1:3000',
 ];
 app.use(cors({
   origin: (origin, cb) => {
@@ -35,7 +35,7 @@ app.use("/images", express.static(IMAGES_DIR));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
-
+app.use('/api/uploads', uploadRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/trips', tripRoutes);
