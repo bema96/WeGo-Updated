@@ -23,10 +23,13 @@ export default function BookingPage({ id }) {
   const { data: tripData,    loading: tripLoading,    error: tripError    } = useTrips(id);
   const { data: bookingData, loading: bookingLoading, error: bookingError } = useBooking();
   const { book,              loading: postLoading,    error: postError    } = useBookATrip();
-  const { loginData,         loading: authLoading                         } = useAuth();
   // Data sikring
   const trip     = Array.isArray(tripData)    ? tripData[0] : (tripData ?? null);
   const bookings = Array.isArray(bookingData) ? bookingData : [];
+  // Auth
+  const auth = useAuth();
+  const loginData = auth?.loginData;
+  const authLoading = auth?.loading;
 
   // Beregning
   const seatsRemaining = SeatsRemaining(trip, bookings);

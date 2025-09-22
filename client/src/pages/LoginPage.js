@@ -12,8 +12,9 @@ export default function LoginPage() {
   // Hooks
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const { login, loading, error } = useLogin();
-  // Auth context
-  const { setLoginData } = useAuth();
+  // Auth 
+  const auth = useAuth();                     
+  const setLoginData = auth?.setLoginData; 
   // Next router
   const router = useRouter();
 

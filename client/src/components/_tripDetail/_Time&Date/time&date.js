@@ -22,9 +22,6 @@ export const TimeDate = ({ trip }) => {
                     {new Date(trip.departureDate).toLocaleTimeString("da-DK",{hour:"2-digit",minute:"2-digit"})}
                     </span>
                 </div>
-                <div className="flex bg-white justify-between w-full py-4 px-3 rounded-full">
-                    // ankomst ? 
-                </div>
             </div>
         </div>
     );

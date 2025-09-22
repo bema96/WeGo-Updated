@@ -4,14 +4,14 @@ import { Button }     from "@/components/UI/UniversalButton/button";
 import { useAuth }    from "@/providers/auth.provider";
 import { useRouter }  from "next/navigation";
 import { LogoutIcon } from "@/assets/icons/logout";   
-// import { ProfilePicture } from "@/components/UI/ProfileImage/profileImage"; 
 
 
 
 export default function DashboardPage () {
-    const { loginData, setLoginData } = useAuth();
-    const router                      = useRouter();
-
+    const auth = useAuth();                         
+    const loginData = auth?.loginData;
+    const setLoginData = auth?.setLoginData;
+    const router = useRouter();
 
     const handleLogout = () => {
         
