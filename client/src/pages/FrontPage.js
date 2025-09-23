@@ -71,7 +71,10 @@ export default function FrontPage() {
           <Button
             variant={"primary"}
             onClick={() => setInfoOpen(o => !o)}
-            className="absolute bottom-55 sm:bottom-80 md:bottom-100 float-right -right-5 z-[10000] rounded-xl text-left bg-[var(--sky)] text-white border-2 h-13 w-23 pl-3 shadow lg:hidden hover:scale-[1.2] transition"
+            className={`absolute -right-3 z-[10000] rounded-xl text-left bg-[var(--sky)] text-white border-2 
+                        h-[50px] w-[92px] pl-3 shadow lg:hidden hover:scale-110 transition
+                        ${infoOpen ? "top-0" : "top-95 bottom-[calc(var(--reveal)+1rem)]"}`}
+
           >
             {infoOpen ? "Luk" : "info"}
           </Button>    
