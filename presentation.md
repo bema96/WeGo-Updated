@@ -4,13 +4,14 @@
 
 Til mit WeGo samkørselsprojekt valgte jeg Next.js som frontend framework, og det var et meget bevidst valg. Next.js er bygget oven på React, men tilbyder nogle kraftfulde funktioner, der gør udviklingen både hurtigere og mere effektiv.
 
-Den første store fordel er Next.js' filbaserede routing system. I stedet for at skulle konfigurere routes manuelt, bliver hver fil i app-mappen automatisk til en side. Som I kan se i mit projekt, har jeg en struktur hvor `app/(public)/page.js` bliver til forsiden, og `app/(public)/list/page.js` bliver til `/list` ruten. Dette gør navigation og struktur meget intuitiv.
+Den første store fordel er Next.js' filbaserede routing system. I stedet for at skulle konfigurere routes manuelt, bliver hver fil i app-mappen automatisk til en side. 
+Som I kan se i mit projekt, har jeg en struktur hvor `app/(public)/page.js` bliver til forsiden, og `app/(public)/list/page.js` bliver til `/list` ruten.
 
 Next.js giver mig også mulighed for at blande server-side og client-side rendering. Som standard kører alle komponenter på serveren, hvilket giver bedre performance og SEO. Men når jeg har brug for browser-funktionalitet som state management eller event handlers, kan jeg tilføje `"use client"` direktivet øverst i filen. Dette ser I i mange af mine komponenter, hvor jeg bruger hooks som useState eller useRouter.
 
-En anden fed feature jeg har udnyttet er Next.js' metadata API. I hver page-fil kan jeg eksportere et metadata objekt, der automatisk genererer SEO-venlige meta tags. For eksempel i min ListPage har jeg defineret title, description og keywords, som Next.js automatisk indsætter i HTML head-sektionen.
+En anden fed feature jeg har udnyttet er Next.js' metadata API. I hver page-fil kan jeg eksportere et metadata objekt, der automatisk genererer SEO-venlige meta tags. For eksempel i min ListPage har jeg defineret title, description og keywords, som Next.js automatisk indsætter i HTML head-sektionen i devmode.
 
-Endelig har Next.js indbygget optimering af images og fonts, samt mulighed for at proxy API-kald under udvikling, hvilket jeg bruger til at forbinde min frontend med backend API'et.
+Endelig har jeg prøvet at lave genanvendelig komponenter, adskille logik ved at ligge det i utils og køre API kald kun i page komponent. Alt for at holde koden clean, letlæsligt og komponenterne så vidt muligt 'dumme' og genbrugelig. 
 
 ## Fil 1: ListPage.js - Page Component (2 minutter)
 
@@ -18,17 +19,23 @@ Nu går vi i dybden med min ListPage, som er hjertet i søgefunktionaliteten. De
 
 Øverst importerer jeg alle nødvendige hooks og komponenter. Særligt interessant er `useSearchParams` og `useRouter` fra Next.js navigation. useSearchParams er en hook, der giver mig adgang til URL-parametrene - altså det der kommer efter spørgsmålstegnet i URL'en. Dette bruges til at læse søgeparametrene fra forsiden, når brugeren søger efter "fra" og "til" destinationer.
 
-Jeg har to sæt state-variabler til søgning: `fromInput` og `toInput` styrer hvad brugeren ser i input-felterne, mens `queryFrom` og `queryTo` styrer den faktiske filtrering af data. Dette pattern kaldes "controlled components" og giver mig fuld kontrol over, hvornår data opdateres.
+Jeg har to sæt state-variabler til søgning: `fromInput` og `toInput` styrer hvad brugeren ser i input-felterne, mens `queryFrom` og `queryTo` styrer den faktiske filtrering af data. 
 
 Filtreringssystemet er bygget op omkring et `filters` state-objekt, der indeholder alle brugerens valg - antal sæder, bagagestørrelse og præferencer. Dette objekt sendes til min `applyFilters` utility-funktion, som returnerer de filtrerede resultater.
 
 Dataflow'et fungerer sådan: Først henter jeg data med mine custom hooks - `useTrips`, `useReview` og `useBagsize`. Derefter kører jeg dataene gennem `SearchTrips` funktionen baseret på tekst-søgning, og til sidst gennem `applyFilters` baseret på brugerens filter-valg. Dette giver mig et endeligt `results` array, som sendes til List-komponenten.
 
-`handleSubmit` funktionen er interessant, fordi den både opdaterer state og pusher til URL'en med `router.push`. Dette sikrer, at søgningen er bookmarkable og kan deles.
+`handleSubmit` funktionen opdater quary state og filtrer på brugerens intastede søgning og render listen. 
+
+I return er det værd at ligge mærke til hvordan vi kommuniker med child komponenterne, ved at bruge props og states. 
+SortTrips er specielt ved at vi laver en arrow i en arrow function. Bruger patch til at hente værdier fra child komponenterne  og setFilter statement til at hente de gamle værdier og opdater med de nye. 
 
 ## Fil 2: Navigation.js - Component (1,5 minutter)
 
 Navigation-komponenten demonstrerer responsive design og conditional rendering. Den bruger `useAuth` hook til at få adgang til brugerens login-status og viser forskellige elementer baseret på om brugeren er logget ind.
+
+Min useAuth er en contextProvider der pakker appen ind i en provider i min layout, som gør jeg kan bruge authentication der hvor jeg har brug for det. F.eks her i navigation hvor jeg vil tjekke om bruger er logget ind for at kunne vise username. 
+useContext er en måde at dele data flere steder uden at skal gentage api kald i hver fil.
 
 Komponenten har to forskellige layouts: `MobileNavigation` og `DesktopNavigation`, som vises baseret på Tailwind CSS breakpoints. Dette er et godt eksempel på mobile-first design, hvor jeg starter med mobil-layoutet og tilføjer desktop-funktionalitet med `lg:` prefixes.
 
