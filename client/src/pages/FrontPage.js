@@ -46,7 +46,7 @@ export default function FrontPage() {
         />
 
         {/* Søgefelt */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-40 w-[90%] max-w-[800px] z-0">
+        <div className="absolute left-1/2 -translate-x-1/2 top-20 w-[90%] max-w-[800px] z-0 lg:top-1/2 lg:-translate-y-1/2">
           <SearchLift
             text="Find et lift"
             from={from}

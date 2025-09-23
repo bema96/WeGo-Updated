@@ -18,7 +18,7 @@ export const Slideshow = ({ className, slides = [] }) => {
       className={`fixed inset-0 z-[-10] w-[100vw] ${className}`}
     >
       {slides.map((imageUrl, index) => (
-        <div className="each-slide h-[100vh] w-[100vw]" key={index}>
+        <div className="each-slide h-[130vh] w-[100vw]" key={index}>
           <img 
             src={imageUrl} 
             alt={`slide-${index}`} 

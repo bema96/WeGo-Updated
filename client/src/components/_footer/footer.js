@@ -16,7 +16,7 @@ export const Footer = () => {
       
       {/* Mobil */}
       <div className="absolute w-full bottom-0 flex lg:hidden">
-        <FooterMobile className="relative z-0 w-full" />
+        <FooterMobile className="w-full" />
       </div>
      
 
