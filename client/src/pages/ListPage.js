@@ -24,11 +24,11 @@ export default function ListPage() {
   const params = useSearchParams();
   const router = useRouter();
 
-  // URL input værdier
+  // URL input værdier - styrer input
   const [fromInput, setFromInput] = useState(() => params.get("from"));
   const [toInput,   setToInput  ] = useState(() => params.get("to"));
 
-  // Søge værdier
+  // Søge værdier - styrer filtreringen
   const [queryFrom, setQueryFrom] = useState(() => params.get("from"));
   const [queryTo,   setQueryTo  ] = useState(() => params.get("to"));
 
@@ -50,7 +50,7 @@ export default function ListPage() {
   const results = applyFilters(textResults, filters);
 
 
-  // URL opdatering + søgning
+  // Opdater quary og pusher til URL
   function handleSubmit(e) {
     e.preventDefault();
     setQueryFrom(fromInput);
@@ -87,7 +87,7 @@ export default function ListPage() {
         {/* Filtrering */}
         <SortTrips
           value={filters}
-          onChange={(patch) => setFilters((fetch) => ({ ...fetch, ...patch }))}
+          onChange={(patch) => setFilters((prev) => ({ ...prev, ...patch }))}
           bagSizes={bagSizes}
           className="mt-4 lg:mt-0 lg:w-64 lg:shrink-0 lg:sticky lg:top-24"
         />
