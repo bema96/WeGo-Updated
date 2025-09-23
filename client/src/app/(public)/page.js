@@ -1,3 +1,4 @@
+// public/page.js
 export const metadata = {
   title: "Forside",
   description: "Velkommen til forsiden af Mit Webshop. Find de bedste produkter og tilbud.",

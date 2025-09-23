@@ -26,3 +26,9 @@ export const Avatar = ({ imageUrl, className }) => {
     </div>
   );
 };
+
+// Dette er avatar komponent til at toggle mellem brugerens profilbillede og standar default avatar ikon.
+// Hvis der er et imageUrl, vises billedet, ellers vises et standard avatar ikon.
+
+// Named arrow function component med props destructuring.
+// Betinget rendering med ternaery operator for at vælge mellem brugerens billede og standardikonet.

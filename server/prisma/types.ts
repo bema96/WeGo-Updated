@@ -7,6 +7,7 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     password: 'string',
     description: 'string',
     image: 'string',
+    cloudSecureUrl: 'string',
     refreshToken: 'string',
     isActive: 'boolean'
   },

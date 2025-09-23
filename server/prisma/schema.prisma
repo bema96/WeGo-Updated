@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,37 +8,41 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement()) // -> Primary Key med auto optælling
-  firstname    String  @default("Ikke navngivet")
-  lastname     String  @default("Ikke navngivet")
-  email        String  @unique // -> Unik værdi
-  password     String
-  description  String? @db.Text // -> Lang tekst
-  imageUrl     String?
-  refreshToken String?
-  isActive     Boolean @default(true) // -> Bool med default true
+  id              Int       @id @default(autoincrement())
+  firstname       String    @default("Ikke navngivet")
+  lastname        String    @default("Ikke navngivet")
+  email           String    @unique
+  password        String
+  description     String?   @db.Text
+  refreshToken    String
+  isActive        Boolean   @default(true)
 
-  reviewsWritten  Review[]  @relation("reviewsWritten")
-  reviewsRecieved Review[]  @relation("reviewsRecieved")
-  trips           Trip[]
+  // BILLEDE (legacy + cloud)
+  imageUrl        String?   @db.Text         
+  cloudPublicId   String?   @unique
+  cloudSecureUrl  String?
+
   bookings        Booking[]
+  reviewsRecieved Review[]  @relation("reviewsRecieved")
+  reviewsWritten  Review[]  @relation("reviewsWritten")
+  trips           Trip[]
 
-  @@map("users") // -> Navn på tabel
+  @@map("users")
 }
 
 model Trip {
-  id                 Int      @id @default(autoincrement())
+  id                 Int       @id @default(autoincrement())
   userId             Int
   departureDate      DateTime
-  addressDeparture   String   @db.Text
-  cityDeparture      String   @db.Text
-  addressDestination String   @db.Text
-  cityDestination    String   @db.Text
+  addressDeparture   String    @db.Text
+  cityDeparture      String    @db.Text
+  addressDestination String    @db.Text
+  cityDestination    String    @db.Text
   routeDeviation     Int
   seatsTotal         Int
-  pricePerSeat       Decimal  @db.Decimal(10, 2)
+  pricePerSeat       Decimal   @db.Decimal(10, 2)
   bagSizeId          Int
-  comment            String   @db.Text
+  comment            String    @db.Text
   allowChildren      Boolean
   allowSmoking       Boolean
   allowMusic         Boolean
@@ -52,12 +50,14 @@ model Trip {
   hasComfort         Boolean
   useFerry           Boolean
   isElectric         Boolean
-  createdAt          DateTime @default(now())
+  createdAt          DateTime  @default(now())
 
-  user     User      @relation(fields: [userId], references: [id])
-  bagsize  Bagsize   @relation(fields: [bagSizeId], references: [id])
-  bookings Booking[]
+  bookings           Booking[]
+  bagsize            Bagsize   @relation(fields: [bagSizeId], references: [id])
+  user               User      @relation(fields: [userId], references: [id])
 
+  @@index([bagSizeId], map: "trips_bagSizeId_fkey")
+  @@index([userId], map: "trips_userId_fkey")
   @@map("trips")
 }
 
@@ -65,45 +65,57 @@ model Booking {
   id        Int      @id @default(autoincrement())
   tripId    Int
   userId    Int
-  comment   String?  @db.Text
+  comment   String   @db.Text
   numSeats  Int
   createdAt DateTime @default(now())
 
-  trip Trip @relation(fields: [tripId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
+  @@index([tripId], map: "bookings_tripId_fkey")
+  @@index([userId], map: "bookings_userId_fkey")
   @@map("bookings")
 }
 
 model Review {
-  id             Int      @id @default(autoincrement())
-  numStars       Int
-  comment        String   @db.Text
-  reviewerId     Int
-  reviewedUserId Int
-  createdAt      DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  numStars        Int
+  comment         String   @db.Text
+  reviewerId      Int
+  reviewedUserId  Int
+  createdAt       DateTime @default(now())
 
-  reviewer        User @relation("reviewsWritten", fields: [reviewerId], references: [id])
-  reviewsRecieved User @relation("reviewsRecieved", fields: [reviewedUserId], references: [id])
+  reviewsRecieved User     @relation("reviewsRecieved", fields: [reviewedUserId], references: [id])
+  reviewer        User     @relation("reviewsWritten", fields: [reviewerId], references: [id])
 
+  @@index([reviewedUserId], map: "reviews_reviewedUserId_fkey")
+  @@index([reviewerId], map: "reviews_reviewerId_fkey")
   @@map("reviews")
 }
 
 model Bagsize {
-  id          Int    @id @default(autoincrement())
-  name        String
-  description String
-  iconUrl     String
+  id             Int     @id @default(autoincrement())
+  name           String
+  description    String
 
-  trips Trip[]
+  // IKON (legacy + cloud)
+  iconUrl        String? @db.Text        
+  cloudPublicId  String? @unique
+  cloudSecureUrl String?
+
+  trips          Trip[]
 
   @@map("bagsizes")
 }
 
 model Slide {
-  id       Int    @id @default(autoincrement())
-  imageUrl String
-  text     String
+  id             Int     @id @default(autoincrement())
+  text           String
+
+  // BILLEDE (legacy + cloud)
+  imageUrl       String? @db.Text        
+  cloudPublicId  String? @unique
+  cloudSecureUrl String?
 
   @@map("slides")
 }

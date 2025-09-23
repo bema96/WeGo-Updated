@@ -2,6 +2,18 @@ import { Request, RequestHandler, Response } from 'express';
 import { prisma } from '../prisma.js';
 import bcrypt from 'bcrypt';
 
+
+
+const toUserDTO = (u: any) => ({
+  id: u.id,
+  firstname: u.firstname,
+  lastname: u.lastname,
+  email: u.email,
+  description: u.description ?? null,
+  isActive: u.isActive,
+  avatar: u.cloudSecureUrl ?? u.imageUrl ?? null,
+});
+
 export const getRecords = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({
@@ -11,6 +23,7 @@ export const getRecords = async (req: Request, res: Response) => {
         lastname: true,
         email: true,
         imageUrl: true,
+        cloudSecureUrl: true,
         isActive: true
       }
     });
@@ -33,6 +46,7 @@ export const getRecord = async (req: Request, res: Response) => {
         email: true,
         description: true,
         imageUrl: true,
+        cloudSecureUrl: true,
         isActive: true
       }
     });
@@ -60,8 +74,13 @@ export const createRecord = async (req: Request, res: Response) => {
         password: hashedPassword,
         description,
         imageUrl: image,
+        cloudSecureUrl: null,
         refreshToken,
         isActive: Boolean(isActive),
+      },
+        select: {
+        id: true, firstname: true, lastname: true, email: true,
+        description: true, isActive: true, imageUrl: true, cloudSecureUrl: true,
       },
     });
     res.status(201).json(user);
@@ -73,7 +92,7 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { firstname, lastname, email, password, description, image, refreshToken, isActive } = req.body;
+  const { firstname, lastname, email, password, description, image, refreshToken, cloudSecureUrl, cloudPublicId, isActive } = req.body;
 
   try {
     const dataToUpdate: any = {
@@ -82,6 +101,8 @@ export const updateRecord = async (req: Request, res: Response) => {
       email,
       description,
       image,
+      cloudSecureUrl,
+      cloudPublicId,
       refreshToken,
       isActive: Boolean(isActive),
     };

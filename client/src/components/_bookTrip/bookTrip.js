@@ -22,7 +22,7 @@ export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsCh
         <select
           className="w-full rounded-xl border p-3"
           value={seats}
-          onChange={(e) => onSeatsChange(Number(e.target.value))}
+          onChange={(e) => onSeatsChange(e.target.value)}
           disabled={maxSeats === 0}
           name="seats"
         >
@@ -85,11 +85,11 @@ export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsCh
           <span className="font-medium">{dayLabel(trip?.departureDate)}</span>
         </div>
         <div className="mt-2 text-xs text-gray-500">
-          {seats} sæde{seats > 1 ? "r" : ""}
+          {seats} sæde {seats > 1 ? "r" : ""}
         </div>
         <div className="mt-2 flex justify-between text-sm font-medium">
           <span>Samlet pris</span>
-          <span>DKK {totalPrice ?? 0}</span>
+          <span>DKK {totalPrice ?? 0}</span> 
         </div>
       </div>
 
@@ -104,3 +104,18 @@ export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsCh
     </form>
   );
 };
+
+// Named arrow-function med props-destructuring. 
+// Dette er formularen der håndterer booking af tur. 
+
+// ? : - Vi har ternary operators til at håndtere flertal i "sæder"
+
+// ??  - Vi har nullish coalescing operator til at vise 0 hvis totalPrice er null eller undefined
+
+// === - Vi har strict equality operator til at sammenligne maxSeats med 0 (også en conditional rendering)
+
+// onChange - Vi har event handlers til at opdatere state i parent component
+
+// onSubmit - Vi har event handler til at håndtere formular submission
+
+

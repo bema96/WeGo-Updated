@@ -26,3 +26,10 @@ export const Footer = () => {
     </footer>
   );
 };
+
+// Named arrow-function med visning af to slags størrelser af images alt efter viewport.
+// vi bruger usePathname til at tjekke om vi er på forsiden. I dette tilfælde vil vi ikke vise desktop versionen af footeren.
+
+// usePathname er en hook
+
+// === - strict equality operator. Tjekker om type og værdi er ens.

@@ -1,4 +1,4 @@
-// app/(public)/list/page.js
+// public/list/page.js
 import { Suspense } from "react";
 import ListPage from "@/pages/ListPage";
 

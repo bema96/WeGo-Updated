@@ -1,4 +1,4 @@
-// app/(public)/list/[id]/page.jsx
+// public/list/[id]/page.js
 export async function generateMetadata({ params }) {
   const { id } = await params; 
 

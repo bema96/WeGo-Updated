@@ -1,3 +1,4 @@
+//app/layout.js
 export const metadata = {
   metadataBase: new URL("http://localhost:3000/"),  
   title: { template: "%s | Mit Webshop", default: "Mit Webshop" },

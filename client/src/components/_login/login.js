@@ -1,6 +1,8 @@
+"use client";
+//components/_login/login.js
 import Link from "next/link";
 
-// Pure presentational Login component
+
 export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error }) => {
 
   return (
@@ -56,3 +58,18 @@ export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error
     </section>
   );
 };
+
+// Named arrow-function med props-destructuring. Dette er login formularen med validering og fejlmeddelelser.
+// Formularen bruger react-hook-form til håndtering af input og validering. Der er også en loading state og fejlmeddelelser fra serveren.
+
+// handleSubmit er en funktion fra react-hook-form, der håndterer formularindsendelse.
+
+// register er en funktion fra react-hook-form, der forbinder inputfelter med formularens tilstand og validering. Den kommer med spread operatoren {...} for at tilføje nødvendige props til inputfelterne. Vi bruger kun i dette tilfælde required validering.
+
+// onSubmit er en brugerdefineret funktion, der kaldes, når formularen indsendes korrekt.
+
+// error med && operatoren bruges til betinget rendering af fejlmeddelelser, hvis error på dette objekt eksisterer, så vis denne error.
+
+// ternary operator bruges til at vise "Logger ind..." tekst på knappen, når loading er sand, ellers vises "Login".
+
+// disabled attribut bruges til at deaktivere inputfelter og knappen, når loading er sand, for at forhindre flere indsendelser.

@@ -1,3 +1,4 @@
+// public/layout.js
 "use client";
 
 import { Footer }            from "@/components/_footer/footer";

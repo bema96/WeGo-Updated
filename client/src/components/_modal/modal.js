@@ -1,7 +1,8 @@
 // components/_modal/Modal.jsx
 "use client";
-
+// Imports
 import { Button } from "../UI/UniversalButton/button";
+
 
 export const Modal = ({ open, onClose, title = "Beskrivelse", children }) => {
   if (!open) return null;
@@ -34,3 +35,9 @@ export const Modal = ({ open, onClose, title = "Beskrivelse", children }) => {
     </div>
   );
 };
+
+
+// Named arrow function med props-destructuring fra parent-komponenten. 
+// Simpel modal der tjekker om den skal vises (open) eller (onClose).
+
+// Children prop til at bestemme indhold i modal udefra. Det gør den genbrugelig.
