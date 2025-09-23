@@ -12,8 +12,8 @@ export const SearchLift = ({ className, departClassName, arrivalClassName, text 
     
   return (
 
-    <form onSubmit={onSubmit} className={`${className} relative bg-[var(--white)] flex flex-col px-5 py-5 rounded-2xl gap-3 shadow-xl`}>
-      <h1 className="font-bold text-lg">{text}</h1>
+    <form onSubmit={onSubmit} className={`${className} relative bg-[var(--white)] flex flex-col px-5 pb-15 py-5 rounded-2xl space-y-4 shadow-xl`}>
+      <h1 className="font-bold text-lg pb-5">{text}</h1>
 
       <div className={`${departClassName} relative`}>
         <input

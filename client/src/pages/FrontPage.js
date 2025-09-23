@@ -46,7 +46,7 @@ export default function FrontPage() {
         />
 
         {/* Søgefelt */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-40 w-[90%] max-w-[800px] z-20">
+        <div className="absolute left-1/2 -translate-x-1/2 top-40 w-[90%] max-w-[800px] z-0">
           <SearchLift
             text="Find et lift"
             from={from}
@@ -56,24 +56,26 @@ export default function FrontPage() {
             onSubmit={handleSubmit}
             className=""
           />
-
-          <Button
-            variant={"primary"}
-            onClick={() => setInfoOpen(o => !o)}
-            className="relative bottom-3 float-right -right-3 z-[10000] rounded-full bg-[var(--sky)] text-white border-2 py-4 px-4 shadow lg:hidden hover:scale-[1.2] transition"
-          >
-            {infoOpen ? "Luk" : "info"}
-          </Button>
         </div>
 
         {/* 'Sådan virker det */}
 
 
+
         {/* Højde */}
         <div
-          className="absolute inset-x-0 bottom-0 z-20 lg:hidden overflow-hidden"
-          style={{ "--reveal": "50vh" }} 
-        >
+          className="absolute inset-x-0 bottom-0 z-10 lg:hidden overflow-hidden"
+          style={{ "--reveal": "70vh" }} 
+        >     
+
+          <Button
+            variant={"primary"}
+            onClick={() => setInfoOpen(o => !o)}
+            className="absolute bottom-55 sm:bottom-80 md:bottom-100 float-right -right-5 z-[10000] rounded-xl text-left bg-[var(--sky)] text-white border-2 h-13 w-23 pl-3 shadow lg:hidden hover:scale-[1.2] transition"
+          >
+            {infoOpen ? "Luk" : "info"}
+          </Button>    
+
           <article
             className={`h-[var(--reveal)] max-h-[var(--reveal)] overflow-auto bg-gray-100 rounded-t-2xl shadow px-5 py-5 transform-gpu transition-transform duration-300 ease-out 
               ${infoOpen ? "translate-y-0" : "translate-y-[calc(var(--reveal))]"}`}
