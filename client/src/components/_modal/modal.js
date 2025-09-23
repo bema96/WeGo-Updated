@@ -1,4 +1,4 @@
-// components/_modal/Modal.jsx
+// components/Modal.jsx
 "use client";
 // Imports
 import { Button } from "../UI/UniversalButton/button";
@@ -8,6 +8,7 @@ export const Modal = ({ open, onClose, title = "Beskrivelse", children }) => {
   if (!open) return null;
 
   return (
+    
     <div
       className="fixed inset-0 z-[99999] flex items-center justify-center"
       role="dialog"

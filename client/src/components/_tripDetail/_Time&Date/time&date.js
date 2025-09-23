@@ -1,3 +1,4 @@
+//components/_tripDetail/time&date.js
 "use client"
 
 export const TimeDate = ({ trip }) => {
@@ -5,7 +6,7 @@ export const TimeDate = ({ trip }) => {
 
     return(
         
-        <div>
+        <div className="flex flex-col gap-4">
             <div>
                 <h1 className="font-semibold text-2xl">{trip.cityDeparture} til {trip.cityDestination}</h1>
                 <span className="font-medium">

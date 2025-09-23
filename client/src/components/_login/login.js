@@ -1,11 +1,13 @@
+//components/login.js
 "use client";
-//components/_login/login.js
+// Imports
 import Link from "next/link";
 
 
 export const Login = ({ register, handleSubmit, onSubmit, errors, loading, error }) => {
 
   return (
+
     <section className={"rounded-xl shadow p-8 w-full max-w-lg flex flex-col gap-6"}>
       <h2 className="text-2xl font-bold text-[var(--teal)] text-center">Login</h2>
 

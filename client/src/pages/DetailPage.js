@@ -17,17 +17,19 @@ export default function DetailPage({ id }) {
   const reviews  = Array.isArray(reviewData)  ? reviewData  : [];
  
   // Loading & Error
-  if (tripLoading || reviewLoading ) return <LoadingWavyDots text="" />;
-  if (tripError   || reviewError   ) return <ErrorMessage message="" />;
+  if (tripLoading || reviewLoading ) return <LoadingWavyDots text="Indlæser..." />;
+  if (tripError   || reviewError   ) return <ErrorMessage message="Der opstod en fejl under hentning af data." />;
 
 
   return (
 
-    <div>
+    <div className="max-w-7xl mx-auto px-4 pt-6 pb-30">
+
         <TripDetail 
           trip={trips}
           review={reviews} 
         />
+
     </div>
   );
 };

@@ -14,7 +14,7 @@ export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsCh
 
   return (
 
-    <form className="p-4 space-y-4 max-w-sm mx-auto" onSubmit={onSubmit}>
+    <form className="space-y-4 w-full max-w-xl" onSubmit={onSubmit}>
       
       {/* Pladser */}
       <div className="space-y-1">

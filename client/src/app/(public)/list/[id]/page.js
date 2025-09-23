@@ -14,5 +14,6 @@ import DetailPage from "@/pages/DetailPage";
 
 export default function Page({ params }) {
   const { id } = params; 
+  
   return <DetailPage id={id} />;
 }

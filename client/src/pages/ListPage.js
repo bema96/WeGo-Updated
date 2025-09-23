@@ -24,27 +24,27 @@ export default function ListPage() {
   const params = useSearchParams();
   const router = useRouter();
 
-  // URL -> inputs
+  // URL input værdier
   const [fromInput, setFromInput] = useState(() => params.get("from"));
   const [toInput,   setToInput  ] = useState(() => params.get("to"));
 
-  // søge-værdier (det vi faktisk filtrerer på)
+  // Søge værdier
   const [queryFrom, setQueryFrom] = useState(() => params.get("from"));
   const [queryTo,   setQueryTo  ] = useState(() => params.get("to"));
 
-  // sidebar filter-state
+  // Filter states
   const [filters, setFilters] = useState({ selectedFilter: "", seats: 1, bagSizeId: null, pref: [] });
 
   // Hooks
   const { data: tripData,     loading: tripLoading, error: tripError       } = useTrips();
   const { data: reviewData,   loading: reviewLoading, error: reviewError   } = useReview();
   const { data: bagSizesData, loading: bagSizeLoading, error: bagSizeError } = useBagsize();
-  // data sikring
+  // Data sikring
   const trips    = Array.isArray(tripData)     ? tripData     : [];
   const reviews  = Array.isArray(reviewData)   ? reviewData   : [];
   const bagSizes = Array.isArray(bagSizesData) ? bagSizesData : [];
 
-  // filtererede resultater baseret på søgning
+  // Filtererede resultater baseret på søgning
   const textResults = SearchTrips(trips, queryFrom, queryTo);
   // endelig filtreret resultat søgning + filters
   const results = applyFilters(textResults, filters);
@@ -59,15 +59,16 @@ export default function ListPage() {
     router.push(`/list?${params}`);
   }
 
-  // loading / error
-  if (tripLoading || reviewLoading || bagSizeLoading) return <div><LoadingWavyDots /></div>;
-  if (tripError   || reviewError   || bagSizeError  ) return <div><ErrorMessage /></div>;
+  // Loading & Error
+  if (tripLoading || reviewLoading || bagSizeLoading) return <div><LoadingWavyDots text="Indlæser..." /></div>;
+  if (tripError   || reviewError   || bagSizeError  ) return <div><ErrorMessage message="Der opstod en fejl under hentning af data." /></div>;
 
 
 
   return (
 
-    <div className="max-w-7xl mx-auto px-4 pt-6 pb-10">
+    <div className="max-w-7xl mx-auto px-4 pt-6 pb-30">
+      
       <h1 className="font-bold text-3xl md:hidden mb-3"
       >Find et lift</h1>
 
@@ -78,6 +79,7 @@ export default function ListPage() {
         onFrom={setFromInput}
         onTo={setToInput}
         onSubmit={handleSubmit}
+        className="md:w-full"
       />
 
     

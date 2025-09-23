@@ -32,10 +32,12 @@ export const DesktopNavigation = ({ loginData, onHowItWorks }) => {
       {/* Avatar & username */}
       <div className="flex gap-5 items-center">
         {/* Username */}
+        {loginData && (
         <div className="flex flex-col text-xs opacity-80 absolute right-23 top-8">
           <span className="flex justify-end">Velkommen</span>
           <span className="font-bold flex justify-end">{loginData?.user?.firstname}</span>
         </div>
+        )}
         {/* Avatar */}
         <Link href="/dashboard">
           <Avatar imageUrl={loginData?.user?.imageUrl} className="w-13" />

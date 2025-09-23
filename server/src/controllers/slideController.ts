@@ -1,18 +1,21 @@
-import { Request, Response } from 'express';
-import { prisma } from '../prisma.js';
+// controllers/slide.controller.ts
+import type { Request, Response } from "express";
+import { prisma } from "../prisma.js";
 
-const toDTO = (s: any) => ({
-  id: s.id,
-  text: s.text,
-  image: s.cloudSecureUrl ?? s.imageUrl ?? null, 
-});
-
-export const getRecords = async (req: Request, res: Response) => {
+export const getRecords = async (_req: Request, res: Response) => {
   try {
-    const data = await prisma.slide.findMany();
-    res.json(data.map(toDTO));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch slides' });
+    const rows = await prisma.slide.findMany({
+      select: { imageUrl: true, cloudSecureUrl: true },
+      orderBy: { id: "asc" },
+    });
+
+    const urls = rows
+      .map(s => s.cloudSecureUrl ?? s.imageUrl)
+      .filter(Boolean) as string[];
+
+    res.json(urls);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch slides" });
   }
 };

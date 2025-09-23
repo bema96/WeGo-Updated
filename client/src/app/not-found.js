@@ -1,9 +1,12 @@
+//app/not-found.js
 "use client";
-
+// Imports
 import Link from "next/link";
 
 export default function NotFound() {
+
   return (
+    
     <div className="min-h-screen grid place-items-center bg-white">
       <div className="flex flex-col items-center gap-6">
         <img

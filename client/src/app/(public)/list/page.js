@@ -11,6 +11,7 @@ export const metadata = {
 };
 
 export default function Page() {
+  
   return (
     <Suspense fallback={null}>
       <ListPage />

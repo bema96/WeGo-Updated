@@ -1,6 +1,8 @@
 // components/sortTrips.js
-import { PrefsFilter } from "@/components/_sortTrips/_prefsFilter/preference";
-import { SeatsFilter } from "@/components/_sortTrips/_seatsFilter/seats";
+"use client"
+// Imports
+import { PrefsFilter   } from "@/components/_sortTrips/_prefsFilter/preference";
+import { SeatsFilter   } from "@/components/_sortTrips/_seatsFilter/seats";
 import { BaggageFilter } from "@/components/_sortTrips/_bagageFilter/bagage";
 
 

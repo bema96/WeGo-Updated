@@ -6,7 +6,7 @@
 .dot {
   width: 0.75rem;
   height: 0.75rem;
-  background: var(--acidYellow, #e5ff00);
+  background: var(--teal);
   border-radius: 9999px;
   animation: wavyDot 1.2s infinite;
 }

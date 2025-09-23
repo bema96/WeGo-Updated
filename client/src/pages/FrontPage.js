@@ -3,6 +3,7 @@
 // Imports
 import { useState        } from "react";
 import { useRouter       } from "next/navigation";
+import { Button          } from "@/components/UI/UniversalButton/button";
 import { useSlides       } from "@/hooks/useSlides";
 import { Slideshow       } from "@/components/_slides/slides";
 import { SearchLift      } from "@/components/_search/searchLift";
@@ -15,6 +16,8 @@ export default function FrontPage() {
   // States
   const [from, setFrom] = useState("");
   const [to,   setTo  ] = useState("");
+  const [infoOpen, setInfoOpen] = useState(false);
+
   // Next router
   const router = useRouter();
   // Hooks
@@ -30,17 +33,17 @@ export default function FrontPage() {
   };
 
   // Loading & Error
-  if (loading) return <LoadingWavyDots text="" />;
-  if (error) return <ErrorMessage message="" />;
+  if (loading) return <LoadingWavyDots text="Indlæser..." />;
+  if (error  ) return <ErrorMessage message="Der opstod en fejl under hentning af data." />;
 
 
   return (
 
-    <div>
-
-      {/* HERO / SLIDER */}
       <section className="relative z-0 overflow-visible">
-        <Slideshow slides={slides} />
+
+        <Slideshow 
+        slides={slides} 
+        />
 
         {/* Søgefelt */}
         <div className="absolute left-1/2 -translate-x-1/2 top-40 w-[90%] max-w-[800px] z-20">
@@ -51,24 +54,40 @@ export default function FrontPage() {
             onFrom={setFrom}
             onTo={setTo}
             onSubmit={handleSubmit}
-            className="w-full"
-            submitClassName="py-4"
+            className=""
           />
         </div>
 
         {/* 'Sådan virker det */}
-        <div className="absolute inset-x-0 bottom-0 z-20 lg:hidden">
-          <section className="px-5 py-5 bg-gray-100">
+        <Button
+          variant={"primary"}
+          onClick={() => setInfoOpen(o => !o)}
+          className="absolute bottom-45 right-4  z-30 rounded-full bg-[var(--sky)] text-white border-2 py-4 px-4 shadow lg:hidden hover:scale-[1.2] transition"
+        >
+          {infoOpen ? "Luk" : "info"}
+        </Button>
+
+        {/* Højde */}
+        <div
+          className="absolute inset-x-0 bottom-0 z-20 lg:hidden overflow-hidden"
+          style={{ "--reveal": "50vh" }} 
+        >
+          <article
+            className={`h-[var(--reveal)] max-h-[var(--reveal)] overflow-auto bg-gray-100 rounded-t-2xl shadow px-5 py-5 transform-gpu transition-transform duration-300 ease-out 
+              ${infoOpen ? "translate-y-0" : "translate-y-[calc(var(--reveal))]"}`}
+          >
             <h1 className="font-semibold text-2xl">Sådan virker det</h1>
-            <p>Samkørsel: én kører, andre hopper med, og alle sparer tid og penge. Søg på fra/til og dato, vælg en tur, book et sæde, og bekræft mødested og tidspunkt i chatten (kom fem minutter før). </p>
-            <br/>
-            <p>Betalingen dækker brændstof og eventuelle bro- eller færgeomkostninger og fordeles fair mellem passagererne. Tjek detaljer som bagagestørrelse, kæledyr, rygepolitik, musik eller stillekørsel samt chaufførens rating. Aflys i god tid og giv en kort, ærlig anmeldelse efter turen. </p>
-            <br/>
-            <p>Vis almindelig pli: hold bilen pæn, spørg før mad, brug sele og respekter tempoet. Chaufføren har ansvar for bil og kørsel, platformen forbinder jer, og du kan forvente, at bilen er lovlig og forsikret. Klar kommunikation gør turen grønnere, billigere og mere chill fra A til B.</p>
-          </section>
+            <p>
+              Søg hvor du skal fra og til, vælg dato, find en tur der matcher pris og tidspunkt, og book. 
+              Hop i chatten med chaufføren, få mødested og tid på plads, og sig hvis du har præferencer (musik/stille, pause, bagage). 
+              Mød op fem minutter før og vær nem at finde. Prisen dækker benzin (+ evt. bro/færge) og deles fair mellem jer – ingen skjulte ting. 
+              Tjek regler: hvor meget bagage, kæledyr ok eller ej, rygepolitik. Bliver planen ændret, så meld afbud i god tid. 
+              Efter turen: giv en kort, ærlig anmeldelse, så andre ved, hvad de går ind til. 
+              Det handler bare om klar besked, respekt i bilen og en billigere, grønnere tur.
+            </p>
+          </article>
         </div>
-        
+
       </section>
-    </div>
   );
 }

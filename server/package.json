@@ -11,7 +11,13 @@
     "start": "node dist/index.js",
     "migrate": "prisma migrate deploy",
     "seed": "prisma db seed",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+
+    "db:deploy": "prisma migrate deploy",
+    "seed:csv": "node scripts/seed-from-csv.js",
+    "backfill:users": "node scripts/csv-cloudinary-backfill.js users ./prisma/csv/user.csv",
+    "backfill:slides": "node scripts/csv-cloudinary-backfill.js slides ./prisma/csv/slide.csv",
+    "backfill:bags": "node scripts/csv-cloudinary-backfill.js bagsizes ./prisma/csv/bagsize.csv"
   },
   "dependencies": {
     "@prisma/client": "^6.16.2",

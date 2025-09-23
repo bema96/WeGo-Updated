@@ -1,25 +1,18 @@
+//components/searchLift.js
 "use client";
-
+// Imports
 import { Button } from "../UI/UniversalButton/button";
 import { Pin } from "@/assets/icons/pin";
 import { Location } from "@/assets/icons/location";
 
-export const SearchLift = ({
-  className,
-  submitClassName,
-  departClassName,
-  arrivalClassName,
-  text = "",
-  from = "",
-  to = "",
+export const SearchLift = ({ className, departClassName, arrivalClassName, text = "", from = "", to = "",
   onFrom = () => {},
   onTo = () => {},
-  onSubmit = (e) => e.preventDefault(),
-}) => {
+  onSubmit = (e) => e.preventDefault() }) => {
     
   return (
 
-    <form onSubmit={onSubmit} className={`${className} relative bg-[var(--white)] flex flex-col px-5 py-5 rounded-2xl gap-3 shadow-2xl`}>
+    <form onSubmit={onSubmit} className={`${className} relative bg-[var(--white)] flex flex-col px-5 py-5 rounded-2xl gap-3 shadow-xl`}>
       <h1 className="font-bold text-lg">{text}</h1>
 
       <div className={`${departClassName} relative`}>
@@ -45,7 +38,7 @@ export const SearchLift = ({
       </div>
 
       <Button 
-        className={submitClassName} 
+        className="py-3" 
         type="submit" 
         variant="primary"
       >

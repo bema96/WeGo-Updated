@@ -10,13 +10,12 @@ import "./hamburgerMenu.css";
 
 
 export const Navigation = () => {
-
   // Hooks
   const { loginData } = useAuth();
   // Menu states
   const [menuOpen, setMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  // Modal handlers
+  // Modal håndtering
   const openModal  = () => setOpen(true);
   const closeModal = () => setOpen(false);
 
@@ -26,7 +25,7 @@ export const Navigation = () => {
       <nav className="bg-[var(--gray)] text-[var(--gral)] text-sm h-[120px] flex items-center py-4 px-6 shadow-md">
 
         {/* Mobil navigation */}
-        <div className="block md:hidden w-full">
+        <div className="block lg:hidden w-full">
           <MobileNavigation
             loginData={loginData}
             menuOpen={menuOpen}
@@ -36,7 +35,7 @@ export const Navigation = () => {
         </div>
 
         {/* Desktop navigation */}
-        <div className="hidden md:block w-full">
+        <div className="hidden lg:block w-full">
           <DesktopNavigation
             loginData={loginData}
             onHowItWorks={openModal}
@@ -46,11 +45,14 @@ export const Navigation = () => {
 
       {/* Modal - Sådan virker det */}
       <Modal open={open} onClose={closeModal} title="Sådan virker det">
-        <p>Samkørsel: én kører, andre hopper med, og alle sparer tid og penge. Søg på fra/til og dato, vælg en tur, book et sæde, og bekræft mødested og tidspunkt i chatten (kom fem minutter før).</p>
-        <br />
-        <p>Betalingen dækker brændstof og evt. bro/færge og fordeles fair. Tjek bagage, kæledyr, rygning, musik/stille og rating. Aflys i god tid og giv en kort, ærlig anmeldelse.</p>
-        <br />
-        <p>Hold bilen pæn, spørg før mad, brug sele, respekter tempo. Chaufføren har ansvar; platformen forbinder jer. Forvent lovlig/forsikret bil. Klar kommunikation = chill tur.</p>
+            <p>
+              Søg hvor du skal fra og til, vælg dato, find en tur der matcher pris og tidspunkt, og book. 
+              Hop i chatten med chaufføren, få mødested og tid på plads, og sig hvis du har præferencer (musik/stille, pause, bagage). 
+              Mød op fem minutter før og vær nem at finde. Prisen dækker benzin (+ evt. bro/færge) og deles fair mellem jer – ingen skjulte ting. 
+              Tjek regler: hvor meget bagage, kæledyr ok eller ej, rygepolitik. Bliver planen ændret, så meld afbud i god tid. 
+              Efter turen: giv en kort, ærlig anmeldelse, så andre ved, hvad de går ind til. 
+              Det handler bare om klar besked, respekt i bilen og en billigere, grønnere tur.
+            </p>
       </Modal>
   </>
   );

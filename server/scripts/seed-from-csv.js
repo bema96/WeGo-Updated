@@ -1,205 +1,132 @@
 // scripts/seed-from-csv.js
 'use strict';
 require('dotenv').config();
+
 const fs = require('fs');
 const { parse } = require('csv-parse/sync');
 const bcrypt = require('bcrypt');
-const { PrismaClient, Prisma } = require('@prisma/client');
+const { PrismaClient } = require('@prisma/client');
+const db = new PrismaClient();
 
-const prisma = new PrismaClient();
-
-function readCsv(file) {
-  const raw = fs.readFileSync(file, 'utf8');
-  return parse(raw, { columns: true, skip_empty_lines: true, comment: '#' });
-}
-const toInt = (v) => (v===undefined||v==="") ? null : Number(v);
-const toBool = (v) => {
+// ---------- utils ----------
+const readCsv = (file) => parse(fs.readFileSync(file, 'utf8'), { columns: true, skip_empty_lines: true, comment: '#' });
+const I = (v) => (v===''||v==null) ? null : Number(v);
+const S = (v) => (v===''||v==null) ? null : String(v);
+const B = (v) => {
   if (typeof v === 'boolean') return v;
-  const s = String(v).trim().toLowerCase();
+  const s = (v ?? '').toString().trim().toLowerCase();
   return ['1','true','yes','y'].includes(s);
 };
-const toStr = (v) => (v===undefined||v==="") ? null : String(v);
-const toDecStr = (v) => (v===undefined||v==="") ? null : String(v);
+const D = (v) => v ? new Date(v) : new Date();
 
-async function seedUsers(csv) {
-  const rows = readCsv(csv);
+// generisk seed: læs CSV → kør builder(row) → upsert
+async function seed(label, csvPath, builder) {
+  const rows = readCsv(csvPath);
   for (const r of rows) {
-    const id = toInt(r.id);
-    const password = r.passwordHash ? r.passwordHash : (r.password ? await bcrypt.hash(String(r.password), 10) : 'changeme');
-    await prisma.user.upsert({
-      where: { id },
-      update: {
-        firstname: r.firstname ?? 'Ikke navngivet',
-        lastname:  r.lastname  ?? 'Ikke navngivet',
-        email:     r.email,
-        password,
-        description: toStr(r.description),
-        isActive: r.isActive !== undefined ? toBool(r.isActive) : true,
-        imageUrl: toStr(r.imageUrl),              // legacy (backfill tager sig af cloud-felter)
-      },
-      create: {
-        id,
-        firstname: r.firstname ?? 'Ikke navngivet',
-        lastname:  r.lastname  ?? 'Ikke navngivet',
-        email:     r.email,
-        password,
-        description: toStr(r.description),
-        isActive: r.isActive !== undefined ? toBool(r.isActive) : true,
-        refreshToken: r.refreshToken ?? '',
-        imageUrl: toStr(r.imageUrl),
-      }
-    });
+    const { where, create, update, model } = await builder(r);
+    await model.upsert({ where, create, update });
   }
+  console.log(`✔ ${label} (${rows.length})`);
 }
 
-async function seedBagsizes(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.bagsize.upsert({
-      where: { id },
-      update: { name: r.name, description: r.description ?? '', iconUrl: toStr(r.iconUrl) },
-      create: { id, name: r.name, description: r.description ?? '', iconUrl: toStr(r.iconUrl) }
-    });
-  }
-}
-
-async function seedSlides(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.slide.upsert({
-      where: { id },
-      update: { text: r.text, imageUrl: toStr(r.imageUrl) },
-      create: { id, text: r.text, imageUrl: toStr(r.imageUrl) }
-    });
-  }
-}
-
-async function seedContent(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.content.upsert({
-      where: { id },
-      update: { title: r.title, content: r.content ?? '' },
-      create: { id, title: r.title, content: r.content ?? '' }
-    });
-  }
-}
-
-async function seedTrips(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.trip.upsert({
-      where: { id },
-      update: {
-        userId: toInt(r.userId),
-        departureDate: new Date(r.departureDate),
-        addressDeparture: r.addressDeparture,
-        cityDeparture: r.cityDeparture,
-        addressDestination: r.addressDestination,
-        cityDestination: r.cityDestination,
-        routeDeviation: toInt(r.routeDeviation) ?? 0,
-        seatsTotal: toInt(r.seatsTotal) ?? 1,
-        pricePerSeat: toDecStr(r.pricePerSeat) ?? "0",
-        bagSizeId: toInt(r.bagSizeId),
-        comment: r.comment ?? '',
-        allowChildren: toBool(r.allowChildren),
-        allowSmoking: toBool(r.allowSmoking),
-        allowMusic: toBool(r.allowMusic),
-        allowPets: toBool(r.allowPets),
-        hasComfort: toBool(r.hasComfort),
-        useFerry: toBool(r.useFerry),
-        isElectric: toBool(r.isElectric),
-      },
-      create: {
-        id,
-        userId: toInt(r.userId),
-        departureDate: new Date(r.departureDate),
-        addressDeparture: r.addressDeparture,
-        cityDeparture: r.cityDeparture,
-        addressDestination: r.addressDestination,
-        cityDestination: r.cityDestination,
-        routeDeviation: toInt(r.routeDeviation) ?? 0,
-        seatsTotal: toInt(r.seatsTotal) ?? 1,
-        pricePerSeat: toDecStr(r.pricePerSeat) ?? "0",
-        bagSizeId: toInt(r.bagSizeId),
-        comment: r.comment ?? '',
-        allowChildren: toBool(r.allowChildren),
-        allowSmoking: toBool(r.allowSmoking),
-        allowMusic: toBool(r.allowMusic),
-        allowPets: toBool(r.allowPets),
-        hasComfort: toBool(r.hasComfort),
-        useFerry: toBool(r.useFerry),
-        isElectric: toBool(r.isElectric),
-      }
-    });
-  }
-}
-
-async function seedBookings(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.booking.upsert({
-      where: { id },
-      update: {
-        tripId: toInt(r.tripId),
-        userId: toInt(r.userId),
-        comment: r.comment ?? '',
-        numSeats: toInt(r.numSeats) ?? 1,
-      },
-      create: {
-        id,
-        tripId: toInt(r.tripId),
-        userId: toInt(r.userId),
-        comment: r.comment ?? '',
-        numSeats: toInt(r.numSeats) ?? 1,
-      }
-    });
-  }
-}
-
-async function seedReviews(csv) {
-  const rows = readCsv(csv);
-  for (const r of rows) {
-    const id = toInt(r.id);
-    await prisma.review.upsert({
-      where: { id },
-      update: {
-        numStars: toInt(r.numStars) ?? 5,
-        comment: r.comment ?? '',
-        reviewerId: toInt(r.reviewerId),
-        reviewedUserId: toInt(r.reviewedUserId),
-      },
-      create: {
-        id,
-        numStars: toInt(r.numStars) ?? 5,
-        comment: r.comment ?? '',
-        reviewerId: toInt(r.reviewerId),
-        reviewedUserId: toInt(r.reviewedUserId),
-      }
-    });
-  }
-}
-
+// ---------- kør i rækkefølge ----------
 (async () => {
-  try {
-    const base = './prisma/csv'; // justér hvis dine filer ligger andetsteds
-    await seedUsers(`${base}/user.csv`);
-    await seedBagsizes(`${base}/bagsize.csv`);
-    await seedSlides(`${base}/slide.csv`);
-    await seedContent(`${base}/content.csv`);
-    await seedTrips(`${base}/trip.csv`);
-    await seedBookings(`${base}/booking.csv`);
-    await seedReviews(`${base}/review.csv`);
-    console.log('Seed done');
-  } catch (e) {
-    console.error(e);
-    process.exitCode = 1;
-  } finally {
-    await prisma.$disconnect();
-  }
-})();
+  const base = './prisma/csv';
+
+  // Users
+  await seed('users', `${base}/user.csv`, async (r) => {
+    const id = I(r.id);
+    const password =
+      r.passwordHash ? r.passwordHash :
+      r.password     ? await bcrypt.hash(String(r.password), 10) : '$2b$10$z0W5Q0Q0Q0Q0Q0Q0Q0Q0Oe8m2m3m4m5m6m7m8m9m0m1m2m3m4'; 
+    const data = {
+      firstname: r.firstname ?? 'Ikke navngivet',
+      lastname:  r.lastname  ?? 'Ikke navngivet',
+      email:     r.email,
+      password,
+      description: S(r.description),
+      isActive: r.isActive !== undefined ? B(r.isActive) : true,
+      imageUrl: S(r.imageUrl),         
+      refreshToken: r.refreshToken ?? '',
+    };
+    return {
+      model: db.user,
+      where: { id },
+      create: { id, ...data },
+      update: data,
+    };
+  });
+
+  // Bagsizes
+  await seed('bagsizes', `${base}/bagsize.csv`, (r) => {
+    const id = I(r.id);
+    const data = { name: r.name, description: r.description ?? '', iconUrl: S(r.iconUrl) };
+    return { model: db.bagsize, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  // Slides
+  await seed('slides', `${base}/slide.csv`, (r) => {
+    const id = I(r.id);
+    const data = { text: r.text, imageUrl: S(r.imageUrl) };
+    return { model: db.slide, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  // Content
+  await seed('content', `${base}/content.csv`, (r) => {
+    const id = I(r.id);
+    const data = { title: r.title, content: r.content ?? '' };
+    return { model: db.content, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  // Trips
+  await seed('trips', `${base}/trip.csv`, (r) => {
+    const id = I(r.id);
+    const data = {
+      userId: I(r.userId),
+      departureDate: D(r.departureDate),
+      addressDeparture: r.addressDeparture,
+      cityDeparture: r.cityDeparture,
+      addressDestination: r.addressDestination,
+      cityDestination: r.cityDestination,
+      routeDeviation: I(r.routeDeviation) ?? 0,
+      seatsTotal: I(r.seatsTotal) ?? 1,
+      pricePerSeat: S(r.pricePerSeat) ?? '0',
+      bagSizeId: I(r.bagSizeId),
+      comment: r.comment ?? '',
+      allowChildren: B(r.allowChildren),
+      allowSmoking:  B(r.allowSmoking),
+      allowMusic:    B(r.allowMusic),
+      allowPets:     B(r.allowPets),
+      hasComfort:    B(r.hasComfort),
+      useFerry:      B(r.useFerry),
+      isElectric:    B(r.isElectric),
+    };
+    return { model: db.trip, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  // Bookings
+  await seed('bookings', `${base}/booking.csv`, (r) => {
+    const id = I(r.id);
+    const data = { tripId: I(r.tripId), userId: I(r.userId), comment: r.comment ?? '', numSeats: I(r.numSeats) ?? 1 };
+    return { model: db.booking, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  // Reviews
+  await seed('reviews', `${base}/review.csv`, (r) => {
+    const id = I(r.id);
+    const data = {
+      numStars: I(r.numStars) ?? 5,
+      comment: r.comment ?? '',
+      reviewerId: I(r.reviewerId),
+      reviewedUserId: I(r.reviewedUserId),
+    };
+    return { model: db.review, where: { id }, create: { id, ...data }, update: data };
+  });
+
+  console.log('Seed done');
+  await db.$disconnect();
+})().catch(async (e) => {
+  console.error(e);
+  await db.$disconnect();
+  process.exit(1);
+});

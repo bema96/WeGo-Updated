@@ -25,10 +25,12 @@ export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, onHowItWork
         
         <div className="flex justify-center items-center gap-3">
           {/* username */}
+          {loginData && (
           <div className="flex flex-col text-xs opacity-80">
             <span className="flex justify-end">Velkommen</span>
             <span className="font-bold flex justify-end">{loginData?.user?.firstname}</span>
           </div>
+          )}
           {/* avatar */}
           <Link href="/dashboard">
             <Avatar imageUrl={loginData?.user?.imageUrl} className="w-13" />

@@ -1,15 +1,15 @@
 //pages/BookingPage.js
 "use client"
 // Imports
-import { useState                     } from "react";
-import { useBooking                   } from "@/hooks/useBooking";       
-import { useBookATrip                 } from "@/hooks/useBookATrip";    
-import { useTrips                     } from "@/hooks/useTrips";
-import { useAuth                      } from "@/providers/auth.provider";
-import { SeatsRemaining               } from "@/utils/seatsRemaining";
-import { BookTrip                     } from "@/components/_bookTrip/bookTrip";
-import { ErrorMessage                 } from "@/components/UI/Error.../ErrorMessage";
-import { LoadingWavyDots              } from "@/components/UI/Loading.../LoadingWavyDots";
+import { useState        } from "react";
+import { useBooking      } from "@/hooks/useBooking";       
+import { useBookATrip    } from "@/hooks/useBookATrip";    
+import { useTrips        } from "@/hooks/useTrips";
+import { useAuth         } from "@/providers/auth.provider";
+import { SeatsRemaining  } from "@/utils/seatsRemaining";
+import { BookTrip        } from "@/components/_booking/booking";
+import { ErrorMessage    } from "@/components/UI/Error.../ErrorMessage";
+import { LoadingWavyDots } from "@/components/UI/Loading.../LoadingWavyDots";
 
 
 export default function BookingPage({ id }) {
@@ -18,7 +18,6 @@ export default function BookingPage({ id }) {
   const [message, setMessage] = useState();
   const [success, setSuccess] = useState();
   const [error,   setError  ] = useState();
-  
   // Hooks
   const { data: tripData,    loading: tripLoading,    error: tripError    } = useTrips(id);
   const { data: bookingData, loading: bookingLoading, error: bookingError } = useBooking();
@@ -60,12 +59,13 @@ export default function BookingPage({ id }) {
 
   // Loading & Error
   if (tripLoading || bookingLoading || postLoading || authLoading) return <LoadingWavyDots text="Indlæser..." />;
-  if (tripError   || bookingError   || postError                 ) return <ErrorMessage message="Error fetching trip" />;
+  if (tripError   || bookingError   || postError                 ) return <ErrorMessage message="Der opstod en fejl under hentning af data." />;
 
 
 
   return (
-    <div className="max-w-sm mx-auto">
+
+    <div className="max-w-7xl mx-auto px-8 w-full mt-20 flex justify-center">
 
       {success && (
         <div className="mb-3 rounded-xl bg-green-100 text-green-800 px-3 py-2 text-sm">

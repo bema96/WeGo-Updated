@@ -1,26 +1,28 @@
+//components/list.js
 "use client";
-
-import { dayLabel } from "@/utils/dayLabel";
-import { Button } from "../UI/UniversalButton/button";
-import { Location } from "@/assets/icons/location";
-import { Time } from "@/assets/icons/time";
-import { Car } from "@/assets/icons/car";
-import { Pin } from "@/assets/icons/pin";
+// Imports
+import { Car         } from "@/assets/icons/car";
+import { Pin         } from "@/assets/icons/pin";
+import { Time        } from "@/assets/icons/time";
+import { Avatar      } from "../_avatar/avatar";
+import { Button      } from "../UI/UniversalButton/button";
+import { dayLabel    } from "@/utils/dayLabel";
+import { Location    } from "@/assets/icons/location";
+import { GotoArrow   } from "@/assets/icons/arrowRight";
+import { useRouter   } from "next/navigation";
+import { StarRating  } from "../_starRating/rating";
 import { calcAverage } from "@/utils/rating";
-import { StarRating } from "../_starRating/rating";
-import { Avatar } from "../_avatar/avatar";
-import { GotoArrow } from "@/assets/icons/arrowRight";
-import { useRouter }       from "next/navigation";
 
 
 export const List = ({ result, review ,className }) => {
-
   // Roter
   const router = useRouter();
+
 
   return (
 
     <div className={`relative ${className}`}>
+      
       <div className="flex flex-col gap-8">
         {result.map((trip) => (
 

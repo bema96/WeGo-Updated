@@ -1,34 +1,37 @@
-import { Request, Response } from 'express';
-import { prisma } from '../prisma.js';
+// controllers/bagsize.controller.ts
+import type { Request, Response } from "express";
+import { prisma } from "../prisma.js";
 
-const toDTO = (b: any) => ({
+const toDTO = (b: { id:number; name:string; description:string|null; iconUrl:string|null; cloudSecureUrl:string|null }) => ({
   id: b.id,
   name: b.name,
   description: b.description,
-  icon: b.cloudSecureUrl ?? b.iconUrl ?? null, 
+  iconUrl: b.cloudSecureUrl ?? b.iconUrl ?? null, // <- frontend kan blive ved med at bruge iconUrl
 });
 
-export const getRecords = async (req: Request, res: Response) => {
+export const getRecords = async (_req: Request, res: Response) => {
   try {
-    const data = await prisma.bagsize.findMany();
-    res.json(data.map(toDTO));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch bagsizes' });
+    const rows = await prisma.bagsize.findMany({
+      select: { id: true, name: true, description: true, iconUrl: true, cloudSecureUrl: true },
+      orderBy: { id: "asc" },
+    });
+    res.json(rows.map(toDTO));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch bagsizes" });
   }
 };
 
 export const getRecord = async (req: Request, res: Response) => {
-  const { id } = req.params;
   try {
-    const data = await prisma.bagsize.findUnique({
-      where: { id: Number(id) },
+    const row = await prisma.bagsize.findUnique({
+      where: { id: Number(req.params.id) },
       select: { id: true, name: true, description: true, iconUrl: true, cloudSecureUrl: true },
     });
-
-    res.json(toDTO(data));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch bagsize' });
+    if (!row) return res.status(404).json({ error: "Bagsize not found" });
+    res.json(toDTO(row));
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch bagsize" });
   }
 };

@@ -1,6 +1,7 @@
+//components/UI/button.js
 const variants = {
     default: "",
-    primary: "bg-[var(--teal)] text-xl font-lightbold text-[var(--white)] rounded-full cursor-pointer",
+    primary: "bg-[var(--teal)] text-xl font-lightbold text-[var(--white)] rounded-full hover:cursor-pointer",
     secondary: "",
     danger: "",
 };

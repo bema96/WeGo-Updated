@@ -1,11 +1,12 @@
+//components/_tripDetail/information.js
 "use client"
-
-import { FerryIcon } from "@/assets/icons/ferry";
-import { ComfortIcon } from "@/assets/icons/comfort";
-import { BagageIcon } from "@/assets/icons/bagage";
+// Imports
+import { FerryIcon    } from "@/assets/icons/ferry";
+import { CrossIcon    } from "@/assets/icons/cross";
+import { CheckIcon    } from "@/assets/icons/check";
+import { BagageIcon   } from "@/assets/icons/bagage";
+import { ComfortIcon  } from "@/assets/icons/comfort";
 import { ElectricIcon } from "@/assets/icons/electric";
-import { CrossIcon } from "@/assets/icons/cross";
-import { CheckIcon } from "@/assets/icons/check";
 
 
 

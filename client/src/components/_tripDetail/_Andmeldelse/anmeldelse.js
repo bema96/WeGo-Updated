@@ -1,5 +1,6 @@
+//components/_tripDetail/anmeldelse.js
 "use client"
-
+// Imports
 import { Button      } from "@/components/UI/UniversalButton/button";
 import { Avatar      } from "@/components/_avatar/avatar";
 import { StarRating  } from "@/components/_starRating/rating";
@@ -8,11 +9,14 @@ import { MessageIcon } from "@/assets/icons/message";
 
 
 export const Reviews = ({ trip, review }) => {
+  
   const reviews = Array.isArray(review)
     ? review.filter(res => res?.reviewedUserId === trip.userId)
     : [];
 
+
   return (
+
     <div>
       <h1 className="font-semibold text-2xl py-5">Chaufførens kommentar</h1>
 

@@ -1,25 +1,28 @@
-// components/_footer/Footer.jsx
+// components/Footer.jsx
 "use client";
-
+// Imports
 import { usePathname } from "next/navigation";
 import { FooterDesktop } from "@/assets/images/footerdesktop";
 import { FooterMobile }  from "@/assets/images/footermobile";
 
 export const Footer = () => {
+  
   const path = usePathname();
   const isFrontpage = path === "/";
 
   return (
-    <footer className="w-full">
+
+    <footer className="relative z-50 w-full">
       
       {/* Mobil */}
-      <div className="block lg:hidden">
+      <div className="absolute w-full -bottom-10 block lg:hidden">
         <FooterMobile className="w-full h-auto" />
       </div>
+     
 
       {/* Desktop */}
       {!isFrontpage && (
-        <div className="hidden lg:block overflow-visible">
+        <div className="lg:block overflow-visible">
           <FooterDesktop className="w-full h-auto lg:-mt-12" />
         </div>
       )}
