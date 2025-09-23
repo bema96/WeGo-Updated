@@ -25,7 +25,7 @@ Filtreringssystemet er bygget op omkring et `filters` state-objekt, der indehold
 
 Dataflow'et fungerer sådan: Først henter jeg data med mine custom hooks - `useTrips`, `useReview` og `useBagsize`. Derefter kører jeg dataene gennem `SearchTrips` funktionen baseret på tekst-søgning, og til sidst gennem `applyFilters` baseret på brugerens filter-valg. Dette giver mig et endeligt `results` array, som sendes til List-komponenten.
 
-`handleSubmit` funktionen opdater quary state og filtrer på brugerens intastede søgning og render listen. 
+`handleSubmit` funktionen opdaterer query state og filtrerer baseret på brugerens indtastede søgning, hvorefter listen re-renderes med de nye resultater. Funktionen tager også brugerens input og pusher det til URL'en via router.push, så søgningen bliver synlig i browserens adresselinje.
 
 I return er det værd at ligge mærke til hvordan vi kommuniker med child komponenterne, ved at bruge props og states. 
 SortTrips er specielt ved at vi laver en arrow i en arrow function. Bruger patch til at hente værdier fra child komponenterne  og setFilter statement til at hente de gamle værdier og opdater med de nye. 
