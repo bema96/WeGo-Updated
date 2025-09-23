@@ -12,11 +12,11 @@ export const Footer = () => {
 
   return (
 
-    <footer className="relative z-50 w-full">
+    <footer className="relative z-0 w-full">
       
       {/* Mobil */}
-      <div className="absolute w-full -bottom-10 block lg:hidden">
-        <FooterMobile className="w-full h-auto" />
+      <div className="absolute w-full bottom-0 flex lg:hidden">
+        <FooterMobile className="relative z-0 w-full" />
       </div>
      
 

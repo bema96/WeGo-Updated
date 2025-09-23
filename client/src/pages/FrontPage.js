@@ -56,16 +56,18 @@ export default function FrontPage() {
             onSubmit={handleSubmit}
             className=""
           />
+
+          <Button
+            variant={"primary"}
+            onClick={() => setInfoOpen(o => !o)}
+            className="relative bottom-3 float-right -right-3 z-[10000] rounded-full bg-[var(--sky)] text-white border-2 py-4 px-4 shadow lg:hidden hover:scale-[1.2] transition"
+          >
+            {infoOpen ? "Luk" : "info"}
+          </Button>
         </div>
 
         {/* 'Sådan virker det */}
-        <Button
-          variant={"primary"}
-          onClick={() => setInfoOpen(o => !o)}
-          className="absolute bottom-45 right-4  z-30 rounded-full bg-[var(--sky)] text-white border-2 py-4 px-4 shadow lg:hidden hover:scale-[1.2] transition"
-        >
-          {infoOpen ? "Luk" : "info"}
-        </Button>
+
 
         {/* Højde */}
         <div
