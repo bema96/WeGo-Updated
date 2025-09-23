@@ -2,7 +2,7 @@
 
 ## Introduktion til Next.js Framework (2 minutter)
 
-Til mit WeGo samkørselsprojekt valgte jeg Next.js som frontend framework, og det var et meget bevidst valg. Next.js er bygget oven på React, men tilbyder nogle kraftfulde funktioner, der gør udviklingen både hurtigere og mere effektiv.
+Til mit WeGo samkørselsprojekt valgte jeg Next.js som frontend framework, et bevidst valg. Next.js er bygget oven på React, men tilbyder nogle kraftfulde funktioner, der gør udviklingen både hurtigere og mere effektiv.
 
 Den første store fordel er Next.js' filbaserede routing system. I stedet for at skulle konfigurere routes manuelt, bliver hver fil i app-mappen automatisk til en side. 
 Som I kan se i mit projekt, har jeg en struktur hvor `app/(public)/page.js` bliver til forsiden, og `app/(public)/list/page.js` bliver til `/list` ruten.
