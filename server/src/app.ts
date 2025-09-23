@@ -5,7 +5,7 @@ import cors from "cors";
 import path from "path";
 import { v2 as cloudinary } from "cloudinary";
 
-
+import "./app"
 import health from "./routes/health";
 import { authRoutes }    from "./routes/authRoutes";
 import { userRoutes }    from "./routes/userRoutes";
