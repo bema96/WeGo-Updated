@@ -97,6 +97,7 @@ export const BookTrip = ({ trip, maxSeats, seats, message, totalPrice, onSeatsCh
       <Button type="submit" className="w-full rounded-2xl bg-sky-500 text-white py-3" disabled={maxSeats === 0}>
         Book
       </Button>
+      
       <Button type="button" onClick={onBack} className="w-full rounded-2xl bg-sky-100 text-sky-800 py-3">
         Tilbage
       </Button>

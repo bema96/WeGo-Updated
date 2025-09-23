@@ -73,7 +73,7 @@ export default function FrontPage() {
             onClick={() => setInfoOpen(o => !o)}
             className={`absolute -right-3 z-[10000] rounded-xl text-left bg-[var(--sky)] text-white border-2 
                         h-[50px] w-[92px] pl-3 shadow lg:hidden hover:scale-110 transition
-                        ${infoOpen ? "top-0" : "top-70 bottom-[calc(var(--reveal)+1rem)]"}`}
+                        ${infoOpen ? "top-0" : "top-50 bottom-[calc(var(--reveal)+1rem)]"}`}
 
           >
             {infoOpen ? "Luk" : "info"}

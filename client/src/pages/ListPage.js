@@ -69,7 +69,7 @@ export default function ListPage() {
 
     <div className="max-w-7xl mx-auto px-4 pt-6 pb-30">
       
-      <h1 className="font-bold text-3xl md:hidden mb-3"
+      <h1 className="font-bold text-3xl lg:hidden mb-3"
       >Find et lift</h1>
 
       {/* Søgningsfelt */}
@@ -79,21 +79,21 @@ export default function ListPage() {
         onFrom={setFromInput}
         onTo={setToInput}
         onSubmit={handleSubmit}
-        className="md:w-full"
+        className="lg:w-full"
       />
 
     
-      <div className="mt-6 md:mt-10 md:flex md:items-start md:gap-8">
+      <div className="mt-6 flex flex-col gap-5 lg:mt-10 lg:flex-row lg:items-start lg:gap-8">
         {/* Filtrering */}
         <SortTrips
           value={filters}
           onChange={(patch) => setFilters((fetch) => ({ ...fetch, ...patch }))}
           bagSizes={bagSizes}
-          className="mt-4 md:mt-0 md:w-64 md:shrink-0 md:sticky md:top-24"
+          className="mt-4 lg:mt-0 lg:w-64 lg:shrink-0 lg:sticky lg:top-24"
         />
         {/* Resultat liste */}
         <div className="flex-1">
-          <h2 className="font-bold text-3xl hidden md:block mb-4"
+          <h2 className="font-bold text-3xl hidden lg:block mb-4"
           >Næste lift</h2>
           <div className="grid gap-3 sm:gap-4">
             <List 
