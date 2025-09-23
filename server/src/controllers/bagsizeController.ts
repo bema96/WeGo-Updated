@@ -1,15 +1,15 @@
-// controllers/bagsize.controller.ts
-import type { Request, Response } from "express";
+// src/controllers/bagsize.controller.ts
+import { RequestHandler } from "express";
 import { prisma } from "../prisma.js";
 
-const toDTO = (b: { id:number; name:string; description:string|null; iconUrl:string|null; cloudSecureUrl:string|null }) => ({
+const toDTO = (b: any) => ({
   id: b.id,
   name: b.name,
   description: b.description,
-  iconUrl: b.cloudSecureUrl ?? b.iconUrl ?? null, // <- frontend kan blive ved med at bruge iconUrl
+  iconUrl: b.cloudSecureUrl ?? b.iconUrl ?? null,
 });
 
-export const getRecords = async (_req: Request, res: Response) => {
+export const getRecords: RequestHandler = async (_req, res, next) => {
   try {
     const rows = await prisma.bagsize.findMany({
       select: { id: true, name: true, description: true, iconUrl: true, cloudSecureUrl: true },
@@ -17,21 +17,22 @@ export const getRecords = async (_req: Request, res: Response) => {
     });
     res.json(rows.map(toDTO));
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch bagsizes" });
+    next(err);
   }
 };
 
-export const getRecord = async (req: Request, res: Response) => {
+export const getRecord: RequestHandler = async (req, res, next) => {
   try {
     const row = await prisma.bagsize.findUnique({
       where: { id: Number(req.params.id) },
       select: { id: true, name: true, description: true, iconUrl: true, cloudSecureUrl: true },
     });
-    if (!row) return res.status(404).json({ error: "Bagsize not found" });
+    if (!row) {
+      res.status(404).json({ error: "Bagsize not found" });
+      return;
+    }
     res.json(toDTO(row));
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to fetch bagsize" });
+    next(err);
   }
 };
