@@ -7,7 +7,7 @@ export const SearchTrips = (trips, from, to) => {
   const valueDestination = Normalize(to   || "");              
 
   return trips.filter(trip =>
-    Normalize(trip?.cityDeparture || "").includes(valueDeparture) &&
+    Normalize(trip?.cityDeparture   || "").includes(valueDeparture  ) &&
     Normalize(trip?.cityDestination || "").includes(valueDestination)
   );
 };
@@ -16,16 +16,18 @@ export const SearchTrips = (trips, from, to) => {
 // Vi kører from/to igennem Nomalize funktionen, og filterer ture hvor afgang/ankomst indeholder de normaliserede værdier.
 // Hver sider er valgfri - tomt felt ignoreres. Hvis begge er tomme, returneres alle ture. Hvis kun den ene er udfyldt, søges kun på denne.
 
-// Hvad teknisk består koden af?
 
-// => - arrow-function med prop-destructuring objekt.
+/*
+Tekniske begreber:
 
-// || - logical OR operator
+||            - logical OR operator. Tjekker om mindst en betingelse er sand.
 
-// .filter() - array method (immutable, returns new array)
+.filter()     - array method (immutable) react hook. Returnerer et nyt array med elementer der passer til en given betingelse.
 
-// .includes() - string method
+.includes()   - string method (immutable) react hook. Tjekker om en given værdi findes i strengen.
 
-// ?. - optional chaining operator
+?.            - optional chaining operator. Tjekker om objektet eksisterer før der tilgås en property
 
-// && - logical AND operator
+&&            - logical AND operator. Tjekker om begge betingelser er sande
+
+*/

@@ -9,7 +9,7 @@ export function BaggageFilter({ options, value, onChange, className}) {
       <h2 className="font-semibold">Bagage</h2>
       <div className="flex gap-5 justify-center pt-3">
 
-        {options.map((option, index) => (
+        {options.map((option) => (
           <label key={option.id} className="cursor-pointer select-none">
             
             {/* knapper med image */}

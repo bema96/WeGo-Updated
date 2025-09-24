@@ -25,7 +25,7 @@ export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, onHowItWork
         
         <div className="flex justify-center items-center gap-3">
           {/* username */}
-          {loginData && (
+          {loginData && (  // conditional rendering
           <div className="flex flex-col text-xs opacity-80">
             <span className="flex justify-end">Velkommen</span>
             <span className="font-bold flex justify-end">{loginData?.user?.firstname}</span>
@@ -41,7 +41,7 @@ export const MobileNavigation = ({ loginData, menuOpen, setMenuOpen, onHowItWork
         <Menu
           right
           isOpen={menuOpen}
-          onStateChange={(state) => setMenuOpen(state.isOpen)}
+          onStateChange={(state) => setMenuOpen(state.isOpen)} // 
           customCrossIcon={
             <Button
               aria-label="Luk menu"

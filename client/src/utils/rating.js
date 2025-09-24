@@ -13,3 +13,23 @@ export function calcAverage(reviews, userId) {
 
   return reviewCount ? totalStars / reviewCount : 0;
 }
+
+
+// Beregner gennemsnit af stjerner for en bruger baseret på anmeldelser
+
+/*
+Tekniske begreber:
+
+.forEach()      - iteration (immutabel) react hook
+
+===             - strict equality operator. Tjekker om to værdier er identiske i både værdi og type.
+
+||              - logical OR operator. Tjekker om mindst en betingelse er sand.
+
+?               - ternary guard operator. Tjekker en betingelse og returnerer en værdi hvis sand, ellers en anden værdi.
+
++=              - akkumulering (sammenlægning af værdier).
+
+/               - division (gennemsnit).
+
+*/

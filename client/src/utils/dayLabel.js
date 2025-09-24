@@ -4,6 +4,8 @@ export function dayLabel(dateInput) {
   const date = new Date(dateInput);
   if (isNaN(date)) return "";
 
+  // Hele dage, UTC-midtpunkt (UTC står for Universal Time Coordinated)
+  // En global standard for tid, der ikke påvirkes af tidszoner eller sommertid.
   const MS_PER_DAY = 86400000;
   const dayNum = (x) => Math.floor(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()) / MS_PER_DAY);
 
@@ -20,3 +22,28 @@ export function dayLabel(dateInput) {
   if (diff >=   7) return `${dateNumber} kl. ${time}`;   //  7+ dage = dato
   return `${weekdays[date.getDay()]} kl. ${time}`;       // 2–6 dage = ugedag
 }
+
+
+// Her er logik for at generere en læsbar label baseret på en dato.
+// Dato (idag), bliver til "i dag" - "i morgen" osv.
+// Klokkeslæt er normaliseret til at vises med kun timer og minutter af 2 digits.
+
+
+/*
+Teknisk kort:
+
+new Date                  - constructor for dato
+
+Math.floor                - method for at runde ned
+
+Date.UTC                  - constructor for UTC dato
+
+toLocaleTimeString        - lokal formatering
+
+if-chain                  - betingelser for labels
+
+/                         - division (gennemsnit)
+
+const dayNum = (x) => Math.floor(Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()) / MS_PER_DAY);    - funktion for at konvertere dato til antal dage siden 1. januar 1970 (UTC)
+
+*/

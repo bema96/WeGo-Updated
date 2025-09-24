@@ -9,3 +9,25 @@ export const SeatsRemaining = (trip, bookings) => {
 
   return total - booked;
 };
+
+
+// Beregn resterende pladser for en given tur baseret på dens samlede pladser og eksisterende bookinger
+
+/*
+Tekniske begreber:
+
+=>           - arrow function
+
+?.           - optional chaining operator
+
+.filter()    - Array-metode (immutabel)
+
+===          - strict equality (samme værdi og type)
+
+.reduce()    - Array-akkumulation med startværdi 0
+
+||           - logical OR (fallback til 0)
+
+-            - aritmetik: total minus sum af bookede sæder
+
+*/
