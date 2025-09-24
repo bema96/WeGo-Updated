@@ -65,7 +65,7 @@ export default function BookingPage({ id }) {
 
   return (
 
-    <div className="max-w-7xl mx-auto px-8 w-full mt-20 mb-50 flex flex-col justify-center">
+    <div className="max-w-7xl mx-auto px-8 w-full mt-20 mb-50 flex flex-col justify-center items-center">
 
       {success && (
         <div className="mb-3 rounded-xl bg-green-100 text-green-800 px-3 py-2 text-sm">
